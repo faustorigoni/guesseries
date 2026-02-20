@@ -238,7 +238,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
             title: ep?.name || `Episodio ${ep?.number || 0}`,
             episode: ep?.number || 0,
             season: seasonNumber,
-            image: ep?.image?.medium || selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
+            image: ep?.image?.original || ep?.image?.medium || selectedSeries?.image?.original || selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
             description: ep?.summary?.replace(/<[^>]*>/g, '') || `Episodio ${ep?.number || 0} de la temporada ${seasonNumber}`
           }))
           
@@ -259,7 +259,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
         id: String(selectedSeries?.id || Date.now()),
         title: selectedSeries?.name || 'Sin título',
         year: selectedSeries?.premiered?.substring(0, 4) || 'N/A',
-        poster: selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
+        poster: selectedSeries?.image?.original || selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
         plot: selectedSeries?.summary?.replace(/<[^>]*>/g, '') || 'Sin descripción',
         seasons
       }
@@ -583,7 +583,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
                     onClick={() => handleSelectSeries(result.show.id)}
                   >
                     <img 
-                      src={result.show.image?.medium || 'https://picsum.photos/300/450?text=No+Poster'} 
+                      src={result.show.image?.original || result.show.image?.medium || 'https://picsum.photos/300/450?text=No+Poster'} 
                       alt={result.show.name} 
                       className="w-full h-48 object-cover rounded mb-3" 
                     />
@@ -600,7 +600,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
             <div className="space-y-4">
               <div className="flex gap-4">
                 <img 
-                  src={selectedSeries.image?.medium || 'https://picsum.photos/300/450?text=No+Poster'} 
+                  src={selectedSeries.image?.original || selectedSeries.image?.medium || 'https://picsum.photos/300/450?text=No+Poster'} 
                   alt={selectedSeries.name} 
                   className="w-32 h-48 object-cover rounded-lg" 
                 />

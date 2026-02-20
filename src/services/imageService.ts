@@ -54,7 +54,13 @@ class ImageService {
         ep.season === season && ep.number === episode
       )
 
-      if (targetEpisode?.image?.medium) {
+      if (targetEpisode?.image?.original) {
+        return {
+          url: targetEpisode.image.original,
+          source: 'tvmaze',
+          quality: 'high'
+        }
+      } else if (targetEpisode?.image?.medium) {
         return {
           url: targetEpisode.image.medium,
           source: 'tvmaze',
@@ -114,7 +120,13 @@ class ImageService {
       const searchResponse = await fetch(`${this.TVMAZE_BASE}/search/shows?q=${encodeURIComponent(seriesName)}`)
       const searchData = await searchResponse.json()
       
-      if (searchData.length && searchData[0].show.image?.medium) {
+      if (searchData.length && searchData[0].show.image?.original) {
+        return {
+          url: searchData[0].show.image.original,
+          source: 'tvmaze-series',
+          quality: 'high'
+        }
+      } else if (searchData.length && searchData[0].show.image?.medium) {
         return {
           url: searchData[0].show.image.medium,
           source: 'tvmaze-series',
@@ -152,7 +164,7 @@ class ImageService {
         const episodesResponse = await fetch(`${this.TVMAZE_BASE}/shows/${showId}/episodes`)
         const episodes = await episodesResponse.json()
         
-        results.totalImages = episodes.filter((ep: any) => ep.image?.medium).length
+        results.totalImages = episodes.filter((ep: any) => ep.image?.original || ep.image?.medium).length
       }
     } catch (error) {
       console.error('Error probando TVMaze:', error)
