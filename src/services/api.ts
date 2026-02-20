@@ -1,5 +1,21 @@
 const API_BASE_URL = 'http://localhost:3001/api';
 
+// Helper function to load initial data from JSON file for static hosting
+async function loadInitialData() {
+  try {
+    // Try to load from public/data/series.json (for GitHub Pages)
+    const response = await fetch('/data/series.json');
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Loaded initial data from JSON file:', data.length, 'series');
+      return data;
+    }
+  } catch (error) {
+    console.log('Could not load initial data from JSON file');
+  }
+  return null;
+}
+
 export const seriesApi = {
   // Obtener todas las series
   async getAllSeries() {
@@ -9,7 +25,16 @@ export const seriesApi = {
       return await response.json();
     } catch (error) {
       console.error('API Error:', error);
-      // Fallback a localStorage si la API no está disponible
+      
+      // First try to load initial data from JSON file
+      const initialData = await loadInitialData();
+      if (initialData && initialData.length > 0) {
+        // Save to localStorage for future use
+        localStorage.setItem('guesseries-series-v2', JSON.stringify(initialData));
+        return initialData;
+      }
+      
+      // Fallback to localStorage
       const stored = localStorage.getItem('guesseries-series-v2');
       return stored ? JSON.parse(stored) : [];
     }
@@ -29,15 +54,15 @@ export const seriesApi = {
       console.error('API Error:', error);
       // Fallback a localStorage
       const stored = localStorage.getItem('guesseries-series-v2') || '[]';
-      const series = JSON.parse(stored);
-      const index = series.findIndex(s => s.id === series.id);
+      const allSeries = JSON.parse(stored);
+      const index = allSeries.findIndex(s => s.id === series.id);
       if (index >= 0) {
-        series[index] = series;
+        allSeries[index] = series;
       } else {
-        series.push(series);
+        allSeries.push(series);
       }
-      localStorage.setItem('guesseries-series-v2', JSON.stringify(series));
-      return { success: true, series };
+      localStorage.setItem('guesseries-series-v2', JSON.stringify(allSeries));
+      return { success: true, series: allSeries };
     }
   },
 
@@ -55,13 +80,13 @@ export const seriesApi = {
       console.error('API Error:', error);
       // Fallback a localStorage
       const stored = localStorage.getItem('guesseries-series-v2') || '[]';
-      const series = JSON.parse(stored);
-      const index = series.findIndex(s => s.id === id);
+      const allSeries = JSON.parse(stored);
+      const index = allSeries.findIndex(s => s.id === id);
       if (index >= 0) {
-        series[index] = series;
-        localStorage.setItem('guesseries-series-v2', JSON.stringify(series));
+        allSeries[index] = series;
+        localStorage.setItem('guesseries-series-v2', JSON.stringify(allSeries));
       }
-      return { success: true, series };
+      return { success: true, series: allSeries };
     }
   },
 
@@ -77,9 +102,9 @@ export const seriesApi = {
       console.error('API Error:', error);
       // Fallback a localStorage
       const stored = localStorage.getItem('guesseries-series-v2') || '[]';
-      const series = JSON.parse(stored).filter(s => s.id !== id);
-      localStorage.setItem('guesseries-series-v2', JSON.stringify(series));
-      return { success: true };
+      const allSeries = JSON.parse(stored).filter(s => s.id !== id);
+      localStorage.setItem('guesseries-series-v2', JSON.stringify(allSeries));
+      return { success: true, series: allSeries };
     }
   },
 
@@ -94,8 +119,9 @@ export const seriesApi = {
     } catch (error) {
       console.error('API Error:', error);
       // Fallback a localStorage
-      localStorage.setItem('guesseries-series-v2', '[]');
-      return { success: true };
+      localStorage.removeItem('guesseries-series-v2');
+      localStorage.removeItem('guesseries-series-backup');
+      return { success: true, series: [] };
     }
   },
 };
