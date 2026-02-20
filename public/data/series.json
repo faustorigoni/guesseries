@@ -232,5 +232,99 @@
         ]
       }
     ]
+  },
+  {
+    "id": "3594",
+    "title": "The Crown",
+    "year": "2016",
+    "poster": "https://static.tvmaze.com/uploads/images/original_untouched/480/1201097.jpg",
+    "plot": "The Crown tells the inside story of two of the most famous addresses in the world -- Buckingham Palace and 10 Downing Street - and the intrigues, love lives and machinations behind the great events that shaped the second half of the 20th century. Two houses, two courts, one Crown.",
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "episodes": [
+          {
+            "id": "3594-S1E1",
+            "title": "Wolferton Splash",
+            "episode": 1,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708010.jpg",
+            "description": "A young Princess Elizabeth marries Prince Philip. As King George VI's health worsens, Winston Churchill is elected prime minister for the second time."
+          },
+          {
+            "id": "3594-S1E2",
+            "title": "Hyde Park Corner",
+            "episode": 2,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708011.jpg",
+            "description": "With King George too ill to travel, Elizabeth and Philip embark on a four-continent Commonwealth tour. Party leaders attempt to undermine Churchill."
+          },
+          {
+            "id": "3594-S1E3",
+            "title": "Windsor",
+            "episode": 3,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708012.jpg",
+            "description": "With Elizabeth in new role, Philip tries to assert some power. Churchill wants to delay the coronation. King George's disgraced brother arrives."
+          },
+          {
+            "id": "3594-S1E4",
+            "title": "Act of God",
+            "episode": 4,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708013.jpg",
+            "description": "When dense smog cripples London for days and creates a serious health hazard, Churchill's inaction leaves him vulnerable to his political enemies."
+          },
+          {
+            "id": "3594-S1E5",
+            "title": "Smoke and Mirrors",
+            "episode": 5,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708014.jpg",
+            "description": "Elizabeth rejects protocol by appointing Philip to coordinate her coronation, but his ideas create conflict. The Duke of Windsor returns to London."
+          },
+          {
+            "id": "3594-S1E6",
+            "title": "Gelignite",
+            "episode": 6,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708015.jpg",
+            "description": "Margaret and Peter come to Elizabeth with a request. With a royal scandal about to break in the newspapers, the Queen Mother intervenes."
+          },
+          {
+            "id": "3594-S1E7",
+            "title": "Scientia Potentia Est",
+            "episode": 7,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708016.jpg",
+            "description": "As the Soviets test the H-bomb, both Churchill and Eden have major health crises. Angry about her inadequate education, Elizabeth hires a tutor."
+          },
+          {
+            "id": "3594-S1E8",
+            "title": "Pride and Joy",
+            "episode": 8,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708017.jpg",
+            "description": "Elizabeth and Philip go on an exhausting world journey. Margaret takes over some of her sister's official duties and tries to liven things up."
+          },
+          {
+            "id": "3594-S1E9",
+            "title": "Assassins",
+            "episode": 9,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708018.jpg",
+            "description": "As tensions with Philip increase, Elizabeth spends time with her old friend Porchey. Churchill's portrait is painted for his 80th birthday."
+          },
+          {
+            "id": "3594-S1E10",
+            "title": "Gloriana",
+            "episode": 10,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/283/708019.jpg",
+            "description": "Margaret and Peter are reunited, but another obstacle stands in their way. Elizabeth is torn between her duty as Queen and her love for her sister."
+          }
+        ]
+      }
+    ]
   }
 ]
