@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { seriesApi } from '../services/api'
 
 type AdminPanelProps = {
   onSeriesAdded: () => void
@@ -28,42 +29,35 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
   useEffect(() => {
     console.log('🔍 === CARGANDO DATOS ===')
     
-    // Intentar cargar desde localStorage principal
-    let stored = localStorage.getItem(STORAGE_KEY)
-    console.log('🔍 Primary storage:', stored ? 'Found' : 'Not found')
-    
-    // Si no hay datos, intentar backup
-    if (!stored) {
-      stored = localStorage.getItem(BACKUP_KEY)
-      console.log('🔍 Backup storage:', stored ? 'Found' : 'Not found')
-    }
-    
-    if (stored) {
+    // Cargar desde la API
+    const loadSeries = async () => {
       try {
-        const parsed = JSON.parse(stored)
-        console.log('🔍 Parsed:', parsed.length, 'items')
+        const series = await seriesApi.getAllSeries()
+        console.log('🔍 Series from API:', series.length)
         
-        if (Array.isArray(parsed)) {
-          const valid = parsed.filter((s: any) => s && s.id && s.title)
-          console.log('🔍 Valid series:', valid.length)
-          
-          if (valid.length > 0) {
-            setSavedSeries(valid)
-            // Restaurar backup si es necesario
-            if (!localStorage.getItem(STORAGE_KEY)) {
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(valid))
-            }
-          } else {
-            setSavedSeries([])
-          }
+        const valid = series.filter((s: any) => s && s.id && s.title)
+        console.log('🔍 Valid series:', valid.length)
+        
+        if (valid.length > 0) {
+          setSavedSeries(valid)
+        } else {
+          setSavedSeries([])
         }
       } catch (e) {
-        console.error('❌ Parse error:', e)
-        setSavedSeries([])
+        console.error('❌ API error:', e)
+        // Fallback a localStorage
+        const stored = localStorage.getItem(STORAGE_KEY)
+        if (stored) {
+          const parsed = JSON.parse(stored)
+          const valid = parsed.filter((s: any) => s && s.id && s.title)
+          setSavedSeries(valid)
+        } else {
+          setSavedSeries([])
+        }
       }
-    } else {
-      setSavedSeries([])
     }
+    
+    loadSeries()
   }, [])
 
   const handleLogin = (e: React.FormEvent) => {
@@ -253,11 +247,17 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
       const updatedSeries = [...existingSeries.filter((s: any) => s && s.id !== newSeries.id), newSeries]
       console.log('Series después de actualizar:', updatedSeries.length)
       
-      const jsonString = JSON.stringify(updatedSeries)
-      localStorage.setItem(STORAGE_KEY, jsonString)
-      localStorage.setItem(BACKUP_KEY, jsonString) // Backup
-      
-      console.log('✅ Guardado en ambas keys:', updatedSeries.length, 'series')
+      // Guardar via API
+      try {
+        await seriesApi.saveSeries(newSeries)
+        console.log('✅ Guardado en API:', updatedSeries.length, 'series')
+      } catch (apiError) {
+        console.error('❌ API Error, fallback to localStorage:', apiError)
+        // Fallback a localStorage
+        const jsonString = JSON.stringify(updatedSeries)
+        localStorage.setItem(STORAGE_KEY, jsonString)
+        localStorage.setItem(BACKUP_KEY, jsonString)
+      }
       
       console.log('Series guardadas en localStorage:', updatedSeries.length)
       
@@ -275,21 +275,41 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
     }
   }
 
-  const handleDeleteSeries = (seriesId: string) => {
-    const existingSeries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-    const updatedSeries = existingSeries.filter((s: any) => s && s.id !== seriesId)
-    const jsonString = JSON.stringify(updatedSeries)
-    localStorage.setItem(STORAGE_KEY, jsonString)
-    localStorage.setItem(BACKUP_KEY, jsonString)
-    setSavedSeries(updatedSeries)
+  const handleDeleteSeries = async (seriesId: string) => {
+    try {
+      await seriesApi.deleteSeries(seriesId)
+      console.log('✅ Serie eliminada de API')
+    } catch (apiError) {
+      console.error('❌ API Error, fallback to localStorage:', apiError)
+      const existingSeries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+      const updatedSeries = existingSeries.filter((s: any) => s && s.id !== seriesId)
+      const jsonString = JSON.stringify(updatedSeries)
+      localStorage.setItem(STORAGE_KEY, jsonString)
+      localStorage.setItem(BACKUP_KEY, jsonString)
+    }
+    
+    // Recargar desde API
+    try {
+      const series = await seriesApi.getAllSeries()
+      const valid = series.filter((s: any) => s && s.id && s.title)
+      setSavedSeries(valid)
+    } catch (e) {
+      console.error('❌ Error reloading after delete:', e)
+    }
     onSeriesAdded()
   }
 
-  const handleClearAllSeries = () => {
+  const handleClearAllSeries = async () => {
     if (window.confirm('¿Limpiar todas las series?')) {
-      localStorage.removeItem(STORAGE_KEY)
-      localStorage.removeItem(BACKUP_KEY)
-      localStorage.removeItem('guesseries-series') // Limpiar key antigua también
+      try {
+        await seriesApi.clearAllSeries()
+        console.log('✅ Todas las series eliminadas de API')
+      } catch (apiError) {
+        console.error('❌ API Error, fallback to localStorage:', apiError)
+        localStorage.removeItem(STORAGE_KEY)
+        localStorage.removeItem(BACKUP_KEY)
+        localStorage.removeItem('guesseries-series')
+      }
       setSavedSeries([])
       onSeriesAdded()
     }
@@ -299,7 +319,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
     setEditingEpisode(episode)
   }
 
-  const handleSaveEpisodeEdit = () => {
+  const handleSaveEpisodeEdit = async () => {
     if (!editingEpisode || !editingEpisode.id) {
       console.log('❌ No episode to save or missing ID')
       return
@@ -307,9 +327,6 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
     
     console.log('💾 Saving episode edit:', editingEpisode.id)
     console.log('💾 Episode has image:', editingEpisode.image ? 'YES' : 'NO')
-    if (editingEpisode.image) {
-      console.log('💾 Image length:', editingEpisode.image.length)
-    }
     
     const updatedSeries = savedSeries.map(series => ({
       ...series,
@@ -321,13 +338,18 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
       }))
     }))
     
-    // Guardar en ambas keys
-    const jsonString = JSON.stringify(updatedSeries)
-    localStorage.setItem(STORAGE_KEY, jsonString)
-    localStorage.setItem(BACKUP_KEY, jsonString)
-    
-    console.log('✅ Episode saved to localStorage')
-    console.log('✅ Updated series count:', updatedSeries.length)
+    // Guardar cada serie modificada en la API
+    try {
+      for (const series of updatedSeries) {
+        await seriesApi.saveSeries(series)
+      }
+      console.log('✅ Episode saved via API')
+    } catch (apiError) {
+      console.error('❌ API Error, fallback to localStorage:', apiError)
+      const jsonString = JSON.stringify(updatedSeries)
+      localStorage.setItem(STORAGE_KEY, jsonString)
+      localStorage.setItem(BACKUP_KEY, jsonString)
+    }
     
     setSavedSeries(updatedSeries)
     setEditingEpisode(null)
@@ -375,29 +397,28 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
     reader.readAsDataURL(file)
   }
 
-  const handleSaveSeriesPoster = () => {
+  const handleSaveSeriesPoster = async () => {
     if (!editingSeriesPoster || !editingSeriesPoster.id) {
       console.log('❌ No series poster to save or missing ID')
       return
     }
     
     console.log('💾 Saving series poster:', editingSeriesPoster.id)
-    console.log('💾 Series has poster:', editingSeriesPoster.poster ? 'YES' : 'NO')
-    if (editingSeriesPoster.poster) {
-      console.log('💾 Poster length:', editingSeriesPoster.poster.length)
-    }
     
     const updatedSeries = savedSeries.map(series => 
       series.id === editingSeriesPoster.id ? editingSeriesPoster : series
     )
     
-    // Guardar en ambas keys
-    const jsonString = JSON.stringify(updatedSeries)
-    localStorage.setItem(STORAGE_KEY, jsonString)
-    localStorage.setItem(BACKUP_KEY, jsonString)
-    
-    console.log('✅ Series poster saved to localStorage')
-    console.log('✅ Updated series count:', updatedSeries.length)
+    // Guardar en API
+    try {
+      await seriesApi.saveSeries(editingSeriesPoster)
+      console.log('✅ Series poster saved via API')
+    } catch (apiError) {
+      console.error('❌ API Error, fallback to localStorage:', apiError)
+      const jsonString = JSON.stringify(updatedSeries)
+      localStorage.setItem(STORAGE_KEY, jsonString)
+      localStorage.setItem(BACKUP_KEY, jsonString)
+    }
     
     setSavedSeries(updatedSeries)
     setEditingSeriesPoster(null)

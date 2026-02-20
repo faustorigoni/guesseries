@@ -4,6 +4,7 @@ import { Series } from './types/series'
 import Guesseries from './components/Guesseries'
 import SeriesSelector from './components/SeriesSelector'
 import AdminPanel from './components/AdminPanel'
+import { seriesApi } from './services/api'
 
 const STORAGE_KEY = 'guesseries-series-v2'
 const BACKUP_KEY = 'guesseries-series-backup'
@@ -15,16 +16,18 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false)
 
   useEffect(() => {
-    // Cargar series guardadas del localStorage
-    let stored = localStorage.getItem(STORAGE_KEY)
-    if (!stored) {
-      stored = localStorage.getItem(BACKUP_KEY)
+    // Cargar series desde la API
+    const loadSeries = async () => {
+      try {
+        const series = await seriesApi.getAllSeries()
+        const valid = series.filter((s: any) => s && s.id && s.title)
+        setAvailableSeries(valid)
+      } catch (error) {
+        console.error('Error loading series:', error)
+        setAvailableSeries([])
+      }
     }
-    if (stored) {
-      const series = JSON.parse(stored)
-      const valid = series.filter((s: any) => s && s.id && s.title)
-      setAvailableSeries(valid)
-    }
+    loadSeries()
   }, [])
 
   const handleSeriesSelect = (series: Series, seasonNumber: number) => {
@@ -39,13 +42,14 @@ function App() {
     setCurrentSeason(1)
   }
 
-  const handleSeriesAdded = () => {
-    // Recargar desde localStorage
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      const series = JSON.parse(stored)
+  const handleSeriesAdded = async () => {
+    // Recargar desde la API
+    try {
+      const series = await seriesApi.getAllSeries()
       const valid = series.filter((s: any) => s && s.id && s.title)
       setAvailableSeries(valid)
+    } catch (error) {
+      console.error('Error reloading series:', error)
     }
   }
 
