@@ -16,6 +16,17 @@ async function loadInitialData() {
   return null;
 }
 
+// Helper function to save data to localStorage and update backup
+function saveToLocalStorage(series) {
+  try {
+    localStorage.setItem('guesseries-series-v2', JSON.stringify(series));
+    localStorage.setItem('guesseries-series-backup', JSON.stringify(series));
+    console.log('Saved to localStorage:', series.length, 'series');
+  } catch (error) {
+    console.error('Error saving to localStorage:', error);
+  }
+}
+
 export const seriesApi = {
   // Obtener todas las series
   async getAllSeries() {
@@ -30,7 +41,7 @@ export const seriesApi = {
       const initialData = await loadInitialData();
       if (initialData && initialData.length > 0) {
         // Save to localStorage for future use
-        localStorage.setItem('guesseries-series-v2', JSON.stringify(initialData));
+        saveToLocalStorage(initialData);
         return initialData;
       }
       
@@ -42,16 +53,29 @@ export const seriesApi = {
 
   // Guardar una serie (crear o actualizar)
   async saveSeries(series) {
+    console.log('🔥 API.saveSeries llamado con:', series);
     try {
+      console.log('🔥 Enviando a:', `${API_BASE_URL}/series`);
       const response = await fetch(`${API_BASE_URL}/series`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(series),
       });
-      if (!response.ok) throw new Error('Error saving series');
-      return await response.json();
+      console.log('🔥 Response status:', response.status);
+      console.log('🔥 Response ok:', response.ok);
+      
+      if (!response.ok) {
+        console.log('🔥 Response no ok, lanzando error');
+        throw new Error('Error saving series');
+      }
+      
+      const result = await response.json();
+      console.log('🔥 Response JSON:', result);
+      return result;
     } catch (error) {
-      console.error('API Error:', error);
+      console.error('❌ API Error:', error);
+      console.log('🔥 Haciendo fallback a localStorage');
+      
       // Fallback a localStorage
       const stored = localStorage.getItem('guesseries-series-v2') || '[]';
       const allSeries = JSON.parse(stored);
@@ -61,7 +85,8 @@ export const seriesApi = {
       } else {
         allSeries.push(series);
       }
-      localStorage.setItem('guesseries-series-v2', JSON.stringify(allSeries));
+      saveToLocalStorage(allSeries);
+      
       return { success: true, series: allSeries };
     }
   },
@@ -84,7 +109,7 @@ export const seriesApi = {
       const index = allSeries.findIndex(s => s.id === id);
       if (index >= 0) {
         allSeries[index] = series;
-        localStorage.setItem('guesseries-series-v2', JSON.stringify(allSeries));
+        saveToLocalStorage(allSeries);
       }
       return { success: true, series: allSeries };
     }
@@ -101,9 +126,8 @@ export const seriesApi = {
     } catch (error) {
       console.error('API Error:', error);
       // Fallback a localStorage
-      const stored = localStorage.getItem('guesseries-series-v2') || '[]';
-      const allSeries = JSON.parse(stored).filter(s => s.id !== id);
-      localStorage.setItem('guesseries-series-v2', JSON.stringify(allSeries));
+      const allSeries = JSON.parse(localStorage.getItem('guesseries-series-v2') || '[]').filter(s => s.id !== id);
+      saveToLocalStorage(allSeries);
       return { success: true, series: allSeries };
     }
   },
@@ -119,9 +143,8 @@ export const seriesApi = {
     } catch (error) {
       console.error('API Error:', error);
       // Fallback a localStorage
-      localStorage.removeItem('guesseries-series-v2');
-      localStorage.removeItem('guesseries-series-backup');
+      saveToLocalStorage([]);
       return { success: true, series: [] };
     }
-  },
+  }
 };

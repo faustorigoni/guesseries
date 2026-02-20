@@ -10,6 +10,8 @@ const TVMAZE_BASE_URL = 'https://api.tvmaze.com'
 
 const STORAGE_KEY = 'guesseries-series-v2'
 const BACKUP_KEY = 'guesseries-series-backup'
+const SESSION_KEY = 'guesseries-admin-session'
+const SESSION_DURATION = 10 * 60 * 1000 // 10 minutos en milisegundos
 
 export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -26,7 +28,47 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
 
   const ADMIN_PASSWORD = 'admin123'
 
+  // Verificar si la sesión está activa
+  const checkSession = () => {
+    const sessionData = localStorage.getItem(SESSION_KEY)
+    if (sessionData) {
+      const { timestamp } = JSON.parse(sessionData)
+      const now = Date.now()
+      if (now - timestamp < SESSION_DURATION) {
+        setIsAuthenticated(true)
+        return true
+      } else {
+        // Sesión expirada, limpiar
+        localStorage.removeItem(SESSION_KEY)
+        setIsAuthenticated(false)
+        return false
+      }
+    }
+    return false
+  }
+
+  // Iniciar sesión
+  const startSession = () => {
+    const sessionData = {
+      timestamp: Date.now()
+    }
+    localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData))
+    setIsAuthenticated(true)
+  }
+
+  // Verificar sesión periódicamente
   useEffect(() => {
+    const interval = setInterval(() => {
+      checkSession()
+    }, 60000) // Verificar cada minuto
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    // Verificar sesión al cargar el componente
+    checkSession()
+    
     console.log('🔍 === CARGANDO DATOS ===')
     
     // Cargar desde la API
@@ -63,7 +105,8 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true)
+      startSession()
+      setError('')
     } else {
       setError('Contraseña incorrecta')
     }

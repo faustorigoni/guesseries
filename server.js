@@ -42,6 +42,8 @@ app.get('/api/series', (req, res) => {
 app.post('/api/series', (req, res) => {
   try {
     const newSeries = req.body;
+    
+    // Actualizar data/series.json (archivo del servidor)
     const data = fs.readFileSync(DATA_FILE, 'utf8');
     const series = JSON.parse(data);
     
@@ -54,6 +56,19 @@ app.post('/api/series', (req, res) => {
     }
     
     fs.writeFileSync(DATA_FILE, JSON.stringify(series, null, 2));
+    
+    // También actualizar public/data/series.json para el frontend estático
+    const publicDataFile = path.join(__dirname, 'public', 'data', 'series.json');
+    const publicDataDir = path.dirname(publicDataFile);
+    
+    // Asegurar que existe la carpeta public/data
+    if (!fs.existsSync(publicDataDir)) {
+      fs.mkdirSync(publicDataDir, { recursive: true });
+    }
+    
+    fs.writeFileSync(publicDataFile, JSON.stringify(series, null, 2));
+    console.log('Updated both data files:', DATA_FILE, 'and', publicDataFile);
+    
     res.json({ success: true, series: newSeries });
   } catch (error) {
     console.error('Error saving series:', error);
@@ -66,6 +81,8 @@ app.put('/api/series/:id', (req, res) => {
   try {
     const { id } = req.params;
     const updatedSeries = req.body;
+    
+    // Actualizar data/series.json
     const data = fs.readFileSync(DATA_FILE, 'utf8');
     const series = JSON.parse(data);
     
@@ -73,6 +90,12 @@ app.put('/api/series/:id', (req, res) => {
     if (index >= 0) {
       series[index] = updatedSeries;
       fs.writeFileSync(DATA_FILE, JSON.stringify(series, null, 2));
+      
+      // También actualizar public/data/series.json
+      const publicDataFile = path.join(__dirname, 'public', 'data', 'series.json');
+      fs.writeFileSync(publicDataFile, JSON.stringify(series, null, 2));
+      console.log('Updated both data files for PUT:', DATA_FILE, 'and', publicDataFile);
+      
       res.json({ success: true, series: updatedSeries });
     } else {
       res.status(404).json({ error: 'Series not found' });
@@ -87,11 +110,19 @@ app.put('/api/series/:id', (req, res) => {
 app.delete('/api/series/:id', (req, res) => {
   try {
     const { id } = req.params;
+    
+    // Actualizar data/series.json
     const data = fs.readFileSync(DATA_FILE, 'utf8');
     const series = JSON.parse(data);
     
     const filtered = series.filter(s => s.id !== id);
     fs.writeFileSync(DATA_FILE, JSON.stringify(filtered, null, 2));
+    
+    // También actualizar public/data/series.json
+    const publicDataFile = path.join(__dirname, 'public', 'data', 'series.json');
+    fs.writeFileSync(publicDataFile, JSON.stringify(filtered, null, 2));
+    console.log('Updated both data files for DELETE:', DATA_FILE, 'and', publicDataFile);
+    
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting series:', error);
@@ -102,7 +133,14 @@ app.delete('/api/series/:id', (req, res) => {
 // DELETE /api/series - Eliminar todas las series
 app.delete('/api/series', (req, res) => {
   try {
+    // Actualizar data/series.json
     fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2));
+    
+    // También actualizar public/data/series.json
+    const publicDataFile = path.join(__dirname, 'public', 'data', 'series.json');
+    fs.writeFileSync(publicDataFile, JSON.stringify([], null, 2));
+    console.log('Cleared both data files:', DATA_FILE, 'and', publicDataFile);
+    
     res.json({ success: true });
   } catch (error) {
     console.error('Error clearing series:', error);
