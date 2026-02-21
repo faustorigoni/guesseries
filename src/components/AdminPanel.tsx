@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { seriesApi } from '../services/api'
+import { tmdbService } from '../services/tmdbService'
+import { getLocalizedText } from '../types/series'
 
 type AdminPanelProps = {
   onSeriesAdded: () => void
@@ -25,6 +27,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
   const [editingSeriesPoster, setEditingSeriesPoster] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [tmdbData, setTmdbData] = useState<any>(null)
 
   const ADMIN_PASSWORD = 'admin123'
 
@@ -80,22 +83,10 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
         const valid = series.filter((s: any) => s && s.id && s.title)
         console.log('🔍 Valid series:', valid.length)
         
-        if (valid.length > 0) {
-          setSavedSeries(valid)
-        } else {
-          setSavedSeries([])
-        }
+        setSavedSeries(valid)
       } catch (e) {
         console.error('❌ API error:', e)
-        // Fallback a localStorage
-        const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) {
-          const parsed = JSON.parse(stored)
-          const valid = parsed.filter((s: any) => s && s.id && s.title)
-          setSavedSeries(valid)
-        } else {
-          setSavedSeries([])
-        }
+        setSavedSeries([])
       }
     }
     
@@ -157,6 +148,16 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
       if (data) {
         setSelectedSeries(data)
         setSelectedSeasons([])
+        
+        // Obtener datos en español desde TMDB
+        try {
+          const tmdbSpanishData = await tmdbService.getCompleteSeriesData(data.name)
+          setTmdbData(tmdbSpanishData)
+          console.log('🇪🇸 Datos TMDB en español:', tmdbSpanishData)
+        } catch (tmdbError) {
+          console.warn('⚠️ No se pudieron obtener datos en español desde TMDB:', tmdbError)
+          setTmdbData(null)
+        }
       } else {
         setError('Error al cargar detalles de la serie')
       }
@@ -233,14 +234,27 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
         console.log(`Episodios temporada ${seasonNumber}:`, episodesData)
         
         if (episodesData && Array.isArray(episodesData)) {
-          const episodes = episodesData.map((ep: any) => ({
-            id: `${selectedSeries.id}-S${seasonNumber}E${ep?.number || 0}`,
-            title: ep?.name || `Episodio ${ep?.number || 0}`,
-            episode: ep?.number || 0,
-            season: seasonNumber,
-            image: ep?.image?.original || ep?.image?.medium || selectedSeries?.image?.original || selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
-            description: ep?.summary?.replace(/<[^>]*>/g, '') || `Episodio ${ep?.number || 0} de la temporada ${seasonNumber}`
-          }))
+          const episodes = episodesData.map((ep: any) => {
+            // Buscar datos en español desde TMDB
+            const tmdbEpisode = tmdbData?.episodes?.find(
+              (tmdbEp: any) => tmdbEp.season === seasonNumber && tmdbEp.episode === ep.number
+            )
+            
+            return {
+              id: `${selectedSeries.id}-S${seasonNumber}E${ep?.number || 0}`,
+              title: {
+                en: tmdbEpisode?.title?.en || ep?.name || `Episode ${ep?.number || 0}`,
+                es: tmdbEpisode?.title?.es || ep?.name || `Episodio ${ep?.number || 0}`
+              },
+              episode: ep?.number || 0,
+              season: seasonNumber,
+              image: ep?.image?.original || ep?.image?.medium || selectedSeries?.image?.original || selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
+              description: {
+                en: tmdbEpisode?.description?.en || ep?.summary?.replace(/<[^>]*>/g, '') || `Episode ${ep?.number || 0} of season ${seasonNumber}`,
+                es: tmdbEpisode?.description?.es || ep?.summary?.replace(/<[^>]*>/g, '') || `Episodio ${ep?.number || 0} de la temporada ${seasonNumber}`
+              }
+            }
+          })
           
           seasons.push({
             seasonNumber,
@@ -257,10 +271,16 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
 
       const newSeries = {
         id: String(selectedSeries?.id || Date.now()),
-        title: selectedSeries?.name || 'Sin título',
+        title: {
+          en: tmdbData?.title?.en || selectedSeries?.name || 'No title',
+          es: tmdbData?.title?.es || selectedSeries?.name || 'Sin título'
+        },
         year: selectedSeries?.premiered?.substring(0, 4) || 'N/A',
         poster: selectedSeries?.image?.original || selectedSeries?.image?.medium || 'https://picsum.photos/300/450?text=No+Poster',
-        plot: selectedSeries?.summary?.replace(/<[^>]*>/g, '') || 'Sin descripción',
+        plot: {
+          en: tmdbData?.plot?.en || selectedSeries?.summary?.replace(/<[^>]*>/g, '') || 'No description',
+          es: tmdbData?.plot?.es || selectedSeries?.summary?.replace(/<[^>]*>/g, '') || 'Sin descripción'
+        },
         seasons
       }
 
@@ -373,9 +393,9 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
     
     const updatedSeries = savedSeries.map(series => ({
       ...series,
-      seasons: series.seasons.map(season => ({
+      seasons: series.seasons.map((season: any) => ({
         ...season,
-        episodes: season.episodes.map(ep => 
+        episodes: season.episodes.map((ep: any) => 
           ep && ep.id === editingEpisode.id ? editingEpisode : ep
         )
       }))
@@ -474,42 +494,6 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
 
   const handleCancelEdit = () => {
     setEditingEpisode(null)
-  }
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    console.log('📷 Image upload started:', file?.name, file?.type, file?.size)
-    
-    if (!file) {
-      console.error('❌ No file selected')
-      return
-    }
-    
-    if (!editingEpisode) {
-      console.error('❌ No episode being edited')
-      return
-    }
-
-    const reader = new FileReader()
-    
-    reader.onerror = (error) => {
-      console.error('❌ FileReader error:', error)
-    }
-    
-    reader.onload = (e) => {
-      const base64 = e.target?.result as string
-      console.log('📷 Base64 generated:', base64?.substring(0, 50) + '...')
-      console.log('📷 Base64 length:', base64?.length)
-      
-      if (base64) {
-        setEditingEpisode({ ...editingEpisode, image: base64 })
-        console.log('✅ Image set on episode')
-      } else {
-        console.error('❌ Failed to generate base64')
-      }
-    }
-    
-    reader.readAsDataURL(file)
   }
 
   if (!isAuthenticated) {
@@ -646,12 +630,37 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
         >
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white">Series Guardadas</h2>
-            <button
-              onClick={handleClearAllSeries}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg"
-            >
-              Limpiar Todo
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  const currentData = localStorage.getItem('guesseries-series-v2');
+                  if (currentData) {
+                    const dataStr = currentData;
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(dataBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'series.json';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    console.log('📥 Series data downloaded for manual sync');
+                  }
+                }}
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm"
+                title="Descargar series.json para sincronizar"
+              >
+                📥 Sincronizar
+              </button>
+              <button
+                onClick={handleClearAllSeries}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg"
+              >
+                Limpiar Todo
+              </button>
+            </div>
           </div>
 
           {savedSeries.length === 0 ? (
@@ -665,14 +674,14 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
                   animate={{ opacity: 1, scale: 1 }}
                   className="bg-white/5 border border-white/20 rounded-lg p-4"
                 >
-                  <img src={series?.poster || 'https://picsum.photos/300/450?text=No+Poster'} alt={series?.title || 'Serie'} className="w-full h-48 object-cover rounded mb-3" />
+                  <img src={series?.poster || 'https://picsum.photos/300/450?text=No+Poster'} alt={getLocalizedText(series?.title, 'es') || 'Serie'} className="w-full h-48 object-cover rounded mb-3" />
                   <button
                     onClick={() => handleEditSeriesPoster(series)}
                     className="mb-2 w-full py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
                   >
                     Editar Poster
                   </button>
-                  <h3 className="font-semibold text-white">{series?.title || 'Sin título'}</h3>
+                  <h3 className="font-semibold text-white">{getLocalizedText(series?.title, 'es') || 'Sin título'}</h3>
                   <p className="text-purple-300 text-sm">{series?.seasons?.length || 0} temporadas</p>
                   <button
                     onClick={() => handleDeleteSeries(series?.id)}
@@ -688,7 +697,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
                         <h4 className="text-white text-sm font-medium mb-2">Temporada {season?.seasonNumber}</h4>
                         {season?.episodes?.map((episode: any) => (
                           <div key={episode?.id} className="flex items-center justify-between py-1">
-                            <span className="text-purple-200 text-xs truncate flex-1">{episode?.title || 'Episodio sin título'}</span>
+                            <span className="text-purple-200 text-xs truncate flex-1">{getLocalizedText(episode?.title, 'es') || 'Episodio sin título'}</span>
                             <button
                               onClick={() => handleEditEpisodeNew(episode)}
                               className="px-2 py-1 bg-purple-600 text-white text-xs rounded ml-2"
@@ -715,7 +724,7 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
               className="bg-white rounded-2xl p-6 max-w-lg w-full"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-4">Editar Poster de Serie</h3>
-              <p className="text-gray-600 mb-4">{editingSeriesPoster.title}</p>
+              <p className="text-gray-600 mb-4">{getLocalizedText(editingSeriesPoster.title, 'es')}</p>
               
               {editingSeriesPoster.poster && (
                 <img src={editingSeriesPoster.poster} alt="" className="w-full h-48 object-cover rounded-lg mb-4" />
@@ -763,26 +772,61 @@ export default function AdminPanel({ onSeriesAdded }: AdminPanelProps) {
               )}
               
               <div className="space-y-3">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                />
-                <input
-                  type="text"
-                  value={editingEpisode.title}
-                  onChange={(e) => setEditingEpisode({ ...editingEpisode, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="Título"
-                />
-                <textarea
-                  value={editingEpisode.description}
-                  onChange={(e) => setEditingEpisode({ ...editingEpisode, description: e.target.value })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="Descripción"
-                />
+                <div className="border-b pb-3">
+                  <h4 className="font-semibold text-gray-700 mb-2">Inglés</h4>
+                  <input
+                    type="text"
+                    value={typeof editingEpisode.title === 'string' ? editingEpisode.title : editingEpisode.title?.en || ''}
+                    onChange={(e) => setEditingEpisode({ 
+                      ...editingEpisode, 
+                      title: typeof editingEpisode.title === 'string' 
+                        ? e.target.value 
+                        : { ...editingEpisode.title, en: e.target.value }
+                    })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2"
+                    placeholder="Título en inglés"
+                  />
+                  <textarea
+                    value={typeof editingEpisode.description === 'string' ? editingEpisode.description : editingEpisode.description?.en || ''}
+                    onChange={(e) => setEditingEpisode({ 
+                      ...editingEpisode, 
+                      description: typeof editingEpisode.description === 'string' 
+                        ? e.target.value 
+                        : { ...editingEpisode.description, en: e.target.value }
+                    })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    placeholder="Descripción en inglés"
+                  />
+                </div>
+                
+                <div className="pb-3">
+                  <h4 className="font-semibold text-gray-700 mb-2">Español</h4>
+                  <input
+                    type="text"
+                    value={typeof editingEpisode.title === 'string' ? editingEpisode.title : editingEpisode.title?.es || ''}
+                    onChange={(e) => setEditingEpisode({ 
+                      ...editingEpisode, 
+                      title: typeof editingEpisode.title === 'string' 
+                        ? { en: editingEpisode.title, es: e.target.value }
+                        : { ...editingEpisode.title, es: e.target.value }
+                    })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2"
+                    placeholder="Título en español"
+                  />
+                  <textarea
+                    value={typeof editingEpisode.description === 'string' ? '' : editingEpisode.description?.es || ''}
+                    onChange={(e) => setEditingEpisode({ 
+                      ...editingEpisode, 
+                      description: typeof editingEpisode.description === 'string' 
+                        ? { en: editingEpisode.description, es: e.target.value }
+                        : { ...editingEpisode.description, es: e.target.value }
+                    })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    placeholder="Descripción en español"
+                  />
+                </div>
               </div>
 
               <div className="flex justify-end space-x-3 mt-6">

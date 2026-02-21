@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { paquitaSalasEpisodes, Episode } from '../data/episodes'
-import { Series } from '../types/series'
+import { Series, getLocalizedText, LanguageConfig } from '../types/series'
 import { playCorrectSound, playIncorrectSound } from '../utils/sounds'
 
 type CheckResult = 'correct' | 'incorrect' | null
@@ -43,6 +43,14 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
   const [showScore, setShowScore] = useState(false)
   const [finalMultiplier, setFinalMultiplier] = useState(2.0)
   const hasCheckedRef = useRef(false)
+  
+  // Estado para idioma
+  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'es'>('en')
+  
+  const languages: LanguageConfig[] = [
+    { code: 'en', name: 'English' },
+    { code: 'es', name: 'Español' }
+  ]
 
   // Actualizar episodios cuando cambia la serie o temporada
   useEffect(() => {
@@ -53,9 +61,18 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
     setShuffledEpisodes([...episodes].sort(() => Math.random() - 0.5))
     setCurrentEpisodeIndex(0)
     // Resetear el juego con el nuevo número de episodios
-    const episodeCount = episodes.length
-    setOrderedEpisodes(Array(episodeCount).fill(null))
-    setCheckResults(Array(episodeCount).fill(null))
+    setEditingEpisodes(Array(episodes.length).fill(null))
+    setImageErrors(new Set())
+    setOrderedEpisodes(Array(episodes.length).fill(null))
+    setCheckResults(Array(episodes.length).fill(null))
+    setEpisodePlaced(false)
+    setDraggedEpisode(null)
+    setDragOverSlot(null)
+    setIsDragging(false)
+    setDraggedFromSlot(null)
+    setShowResetModal(false)
+    setDragPosition({ x: 0, y: 0 })
+    setIsOverCarousel(false)
     setScore(0)
     setGameStartTime(null)
     setElapsedTime(0)
@@ -63,6 +80,19 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
     setFinalMultiplier(2.0)
     hasCheckedRef.current = false
   }, [series, season])
+
+  // Cargar preferencia de idioma desde localStorage
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('guesseries-language') as 'en' | 'es' | null
+    if (savedLanguage && languages.find(lang => lang.code === savedLanguage)) {
+      setCurrentLanguage(savedLanguage)
+    }
+  }, [])
+
+  // Guardar preferencia de idioma cuando cambia
+  useEffect(() => {
+    localStorage.setItem('guesseries-language', currentLanguage)
+  }, [currentLanguage])
 
   const currentEpisode = shuffledEpisodes[currentEpisodeIndex]
 
@@ -477,16 +507,33 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
           animate={{ opacity: 1, y: 0 }}
           className="text-5xl font-bold text-white mb-2 tracking-tight text-center"
         >
-          {series ? series.title : 'Guesseries'}
+          {series ? getLocalizedText(series.title, currentLanguage) : 'Guesseries'}
         </motion.h1>
-        <motion.p 
+        <motion.h1 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
           className="text-xl text-purple-200 mb-8 text-center"
         >
-          {series ? `Temporada ${season}` : 'Paquita Salas'}
-        </motion.p>
+          {series ? getLocalizedText(series.title, currentLanguage) : 'Guesseries'}
+        </motion.h1>
+        
+        {/* Selector de idioma */}
+        <div className="flex justify-center mb-6">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => setCurrentLanguage(lang.code)}
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                currentLanguage === lang.code
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-white/20 text-purple-700 hover:bg-white/30'
+              }`}
+            >
+              {lang.name}
+            </button>
+          ))}
+        </div>
 
         {/* Tarjeta grande arriba con navegación */}
         <motion.div 
@@ -570,7 +617,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                     {getEpisodeImage(currentEpisode) ? (
                     <img
                       src={getEpisodeImage(currentEpisode)}
-                      alt={currentEpisode.title}
+                      alt={getLocalizedText(currentEpisode.title, currentLanguage)}
                       className="w-full h-full object-cover"
                       draggable={false}
                       onError={(e) => {
@@ -591,10 +638,10 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                   </div>
                   <div className="p-6 md:p-8">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                      {currentEpisode.title}
+                      {getLocalizedText(currentEpisode.title, currentLanguage)}
                     </h2>
                     <p className="text-purple-100 text-base md:text-lg leading-relaxed">
-                      {currentEpisode.description}
+                      {getLocalizedText(currentEpisode.description, currentLanguage)}
                     </p>
                   </div>
                 </motion.div>
@@ -633,8 +680,8 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                       className={`w-2 h-2 rounded-full transition-all ${
                         isCurrent ? 'bg-white w-8' : 'bg-white/40'
                       }`}
-                      aria-label={`Ir al episodio ${episode.title}`}
-                      title={`Episodio: ${episode.title}`}
+                      aria-label={`Arrastra aquí: ${getLocalizedText(episode.title, currentLanguage)}`}
+                      title={`Episodio: ${getLocalizedText(episode.title, currentLanguage)}`}
                     />
                   )
                 })}
@@ -737,7 +784,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                       <div className="relative h-32 bg-gradient-to-br from-purple-900 to-slate-900 rounded-lg overflow-hidden mb-3">
                         <img
                           src={episode.image}
-                          alt={episode.title}
+                          alt={getLocalizedText(currentEpisode.title, currentLanguage)}
                           className="w-full h-full object-cover"
                           draggable={false}
                         />
@@ -764,10 +811,10 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                         )}
                       </div>
                       <h3 className="text-sm font-semibold text-white mb-1 line-clamp-1">
-                        {episode.title}
+                        {getLocalizedText(episode.title, currentLanguage)}
                       </h3>
                       <p className="text-xs text-purple-200 line-clamp-2">
-                        {episode.description}
+                        {getLocalizedText(episode.description, currentLanguage)}
                       </p>
                       {!isChecking && !showScore && (
                         <button

@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Series } from '../types/series'
+import { Series, getLocalizedText } from '../types/series'
 
 interface SeriesSelectorProps {
   series: Series[]
   onSeriesSelect: (series: Series, seasonNumber: number) => void
+  currentLanguage?: 'en' | 'es'
 }
 
-export default function SeriesSelector({ series, onSeriesSelect }: SeriesSelectorProps) {
+export default function SeriesSelector({ series, onSeriesSelect, currentLanguage = 'en' }: SeriesSelectorProps) {
   const [selectedSeries, setSelectedSeries] = useState<Series | null>(null)
   const [selectedSeason, setSelectedSeason] = useState<number>(1)
 
@@ -76,10 +77,10 @@ export default function SeriesSelector({ series, onSeriesSelect }: SeriesSelecto
                   <div className="flex flex-col items-center text-center">
                     <img
                       src={s.poster}
-                      alt={s.title}
+                      alt={getLocalizedText(s.title, currentLanguage)}
                       className="w-32 h-48 object-cover rounded-lg mb-4"
                     />
-                    <h3 className="text-xl font-bold text-white mb-2">{s.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-2">{getLocalizedText(s.title, currentLanguage)}</h3>
                     <p className="text-purple-300 text-sm mb-2">{s.year}</p>
                     <p className="text-purple-200 text-xs">{s.seasons.length} temporadas</p>
                   </div>
@@ -95,7 +96,7 @@ export default function SeriesSelector({ series, onSeriesSelect }: SeriesSelecto
               className="bg-white/5 border border-white/20 rounded-xl p-6"
             >
               <h2 className="text-2xl font-bold text-white mb-4 text-center">
-                {selectedSeries.title}
+                {getLocalizedText(selectedSeries.title, currentLanguage)}
               </h2>
               
               <div className="mb-6">
