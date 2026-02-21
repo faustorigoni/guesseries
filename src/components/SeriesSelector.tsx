@@ -13,7 +13,7 @@ interface SeriesSelectorProps {
 
 export default function SeriesSelector({ series, onSeriesSelect, currentLanguage = 'en', onLanguageChange }: SeriesSelectorProps) {
   const [selectedSeries, setSelectedSeries] = useState<Series | null>(null)
-  const [selectedSeason, setSelectedSeason] = useState<number>(1)
+  const [showSeasonModal, setShowSeasonModal] = useState<Series | null>(null)
   const [language, setLanguage] = useState<'en' | 'es'>(currentLanguage)
 
   // Cargar preferencia de idioma desde localStorage
@@ -33,19 +33,21 @@ export default function SeriesSelector({ series, onSeriesSelect, currentLanguage
 
   const handleSeriesSelect = (series: Series) => {
     setSelectedSeries(series)
-    setSelectedSeason(1)
   }
 
   const handleSeasonSelect = (seasonNumber: number) => {
     if (selectedSeries) {
       onSeriesSelect(selectedSeries, seasonNumber)
+      setShowSeasonModal(null)
     }
   }
 
-  const handlePlay = () => {
-    if (selectedSeries) {
-      onSeriesSelect(selectedSeries, selectedSeason)
-    }
+  const handlePlay = (series: Series) => {
+    setShowSeasonModal(series)
+  }
+
+  const closeModal = () => {
+    setShowSeasonModal(null)
   }
 
   return (
@@ -92,78 +94,117 @@ export default function SeriesSelector({ series, onSeriesSelect, currentLanguage
               </p>
             </div>
           ) : (
+            <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {series.filter((s): s is NonNullable<typeof s> => s != null).map((s) => (
-                <motion.div
-                  key={s.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className={`bg-white/5 border-2 rounded-xl p-6 cursor-pointer transition-all ${
-                    selectedSeries?.id === s.id 
-                      ? 'border-purple-400 bg-purple-500/20' 
-                      : 'border-white/20 hover:border-purple-300 hover:bg-white/10'
-                  }`}
-                  onClick={() => handleSeriesSelect(s)}
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <img
-                      src={s.poster}
-                      alt={getLocalizedText(s.title, language)}
-                      className="w-32 h-48 object-cover rounded-lg mb-4"
-                    />
-                    <h3 className="text-xl font-bold text-white mb-2">{getLocalizedText(s.title, language)}</h3>
-                    <p className="text-purple-300 text-sm mb-2">{s.year}</p>
-                    <p className="text-purple-200 text-xs">{s.seasons.length} {getTranslation('seasons', language)}</p>
-                  </div>
-                </motion.div>
+                <div key={s.id} className="contents">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                    className={`bg-white/5 border-2 rounded-xl p-6 cursor-pointer transition-all ${
+                      selectedSeries?.id === s.id 
+                        ? 'border-purple-400 bg-purple-500/20' 
+                        : 'border-white/20 hover:border-purple-300 hover:bg-white/10'
+                    }`}
+                    onClick={() => handleSeriesSelect(s)}
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <img
+                        src={s.poster}
+                        alt={getLocalizedText(s.title, language)}
+                        className="w-32 h-48 object-cover rounded-lg mb-4"
+                      />
+                      <h3 className="text-xl font-bold text-white mb-2">{getLocalizedText(s.title, language)}</h3>
+                      {selectedSeries?.id === s.id ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handlePlay(s)
+                          }}
+                          className="px-6 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                        >
+                          {getTranslation('play', language)}
+                        </button>
+                      ) : (
+                        <>
+                          <p className="text-purple-300 text-sm mb-2">{s.year}</p>
+                          <p className="text-purple-200 text-xs">{s.seasons.length} {getTranslation('seasons', language)}</p>
+                        </>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
               ))}
             </div>
-          )}
-
-          {selectedSeries && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white/5 border border-white/20 rounded-xl p-6"
-            >
-              <h2 className="text-2xl font-bold text-white mb-4 text-center">
-                {getLocalizedText(selectedSeries.title, language)}
-              </h2>
-              
-              <div className="mb-6">
-                <label className="block text-lg font-medium text-purple-200 mb-3">
-                  {getTranslation('selectSeason', language)}
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {selectedSeries.seasons.map((season) => (
-                    <button
-                      key={season.seasonNumber}
-                      onClick={() => setSelectedSeason(season.seasonNumber)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                        selectedSeason === season.seasonNumber
-                          ? 'bg-purple-600 text-white'
-                          : 'bg-white/20 text-purple-700 hover:bg-white/30'
-                      }`}
-                    >
-                      {getTranslation('season', language)} {season.seasonNumber}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="text-center">
-                <button
-                  onClick={handlePlay}
-                  className="px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
-                >
-                  {getTranslation('play', language)}
-                </button>
-              </div>
-            </motion.div>
+            </>
           )}
         </motion.div>
       </div>
+      
+      {/* Season Modal */}
+      {showSeasonModal && (
+        <div 
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={closeModal}
+      >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 rounded-2xl border-2 border-purple-400/50 p-8 mx-4 max-w-2xl w-full shadow-2xl"
+          >
+            <div className="flex gap-6">
+              {/* Poster on the left */}
+              <div className="flex-shrink-0">
+                <img
+                  src={showSeasonModal.poster}
+                  alt={getLocalizedText(showSeasonModal.title, language)}
+                  className="w-48 h-72 object-cover rounded-lg"
+                />
+              </div>
+              
+              {/* Content on the right */}
+              <div className="flex-1">
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white mb-2">
+                      {getLocalizedText(showSeasonModal.title, language)}
+                    </h2>
+                    <p className="text-purple-200">
+                      {showSeasonModal.year} • {showSeasonModal.seasons.length} {getTranslation('seasons', language)}
+                    </p>
+                  </div>
+                  <button
+                    onClick={closeModal}
+                    className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <div>
+                  <label className="block text-lg font-medium text-purple-200 mb-4">
+                    {getTranslation('selectSeason', language)}
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {showSeasonModal.seasons.map((season) => (
+                      <button
+                        key={season.seasonNumber}
+                        onClick={() => handleSeasonSelect(season.seasonNumber)}
+                        className="px-4 py-3 rounded-lg font-medium transition-all bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-600 text-white"
+                      >
+                        {getTranslation('season', language)} {season.seasonNumber}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }

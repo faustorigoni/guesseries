@@ -49,6 +49,8 @@ function App() {
     setCurrentSeries(series)
     setCurrentSeason(seasonNumber)
     setGameStarted(true)
+    // Scroll to top when game starts
+    window.scrollTo(0, 0)
   }
 
   const handleBackToMenu = () => {

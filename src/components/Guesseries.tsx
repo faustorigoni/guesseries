@@ -596,9 +596,12 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                   draggable={!gameFinished}
                   onDragStart={(e) => handleDragStart(e, currentEpisode)}
                   onDragEnd={(e) => handleDragEnd(e)}
-                  className="w-full max-w-3xl bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-2xl cursor-grab active:cursor-grabbing"
+                  className={`relative w-full max-w-3xl bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-2xl cursor-grab active:cursor-grabbing transition-all ${
+                    !isCurrentEpisodeInSlots ? 'opacity-70' : 'opacity-100'
+                  }`}
+                  style={{ aspectRatio: '16/9' }}
                 >
-                  <div className="relative h-64 md:h-80 bg-gradient-to-br from-purple-900 to-slate-900">
+                  <div className="relative h-full bg-gradient-to-br from-purple-900 to-slate-900">
                     {getEpisodeImage(currentEpisode) ? (
                     <img
                       src={getEpisodeImage(currentEpisode)}
@@ -620,14 +623,14 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                     </div>
                   )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                      {getLocalizedText(currentEpisode.title, currentLanguage)}
-                    </h2>
-                    <p className="text-purple-100 text-base md:text-lg leading-relaxed">
-                      {getLocalizedText(currentEpisode.description, currentLanguage)}
-                    </p>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                      <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                        {getLocalizedText(currentEpisode.title, currentLanguage)}
+                      </h2>
+                      <p className="text-purple-100 text-base md:text-lg leading-relaxed">
+                        {getLocalizedText(currentEpisode.description, currentLanguage)}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -747,6 +750,7 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                   <span className="text-lg font-bold text-white">{index + 1}</span>
                 </div>
 
+                <>
                 {/* Episodio colocado */}
                 {episode && (
                     <motion.div
@@ -769,7 +773,7 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                       <div className="relative h-32 bg-gradient-to-br from-purple-900 to-slate-900 rounded-lg overflow-hidden mb-3">
                         <img
                           src={episode.image}
-                          alt={getLocalizedText(currentEpisode.title, currentLanguage)}
+                          alt={getLocalizedText(episode.title, currentLanguage)}
                           className="w-full h-full object-cover"
                           draggable={false}
                         />
@@ -795,23 +799,22 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                           </motion.div>
                         )}
                       </div>
-                      <h3 className="text-sm font-semibold text-white mb-1 line-clamp-1">
-                        {getLocalizedText(episode.title, currentLanguage)}
-                      </h3>
-                      <p className="text-xs text-purple-200 line-clamp-2">
-                        {getLocalizedText(episode.description, currentLanguage)}
-                      </p>
-                      {!isChecking && !showScore && !gameFinished && (
-                        <button
-                          onClick={() => removeFromSlot(index)}
-                          className="absolute top-2 right-2 w-6 h-6 bg-red-500/30 hover:bg-red-500/50 rounded-full flex items-center justify-center transition-colors z-10"
-                          aria-label="Eliminar episodio"
-                        >
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      )}
+                      <div className="p-3">
+                        <h3 className="text-sm font-semibold text-white mb-1">
+                          {getLocalizedText(episode.title, currentLanguage)}
+                        </h3>
+                        {!isChecking && !showScore && !gameFinished && (
+                          <button
+                            onClick={() => removeFromSlot(index)}
+                            className="absolute top-2 right-2 w-6 h-6 bg-red-500/30 hover:bg-red-500/50 rounded-full flex items-center justify-center transition-colors z-10"
+                            aria-label="Eliminar episodio"
+                          >
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
                     </motion.div>
                   )}
 
@@ -823,10 +826,12 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                     </p>
                   </div>
                 )}
-              </motion.div>
+                </>
+                </motion.div>
             )
           })}
         </div>
+      </div>
 
         {/* Puntuación final */}
         <AnimatePresence>
@@ -921,7 +926,6 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
 
       {/* Texto "eliminar" que sigue el cursor cuando se arrastra desde abajo sobre el carrusel */}
       {draggedFromSlot !== null && isOverCarousel && dragPosition.x > 0 && dragPosition.y > 0 && (
