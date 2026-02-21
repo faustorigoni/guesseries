@@ -28,6 +28,7 @@ export const translations = {
     
     // Temporadas y episodios
     season: 'Season',
+    seasons: 'Seasons',
     episode: 'Episode',
     episodes: 'episodes',
     selectSeason: 'Select a season:',
@@ -107,6 +108,7 @@ export const translations = {
     
     // Temporadas y episodios
     season: 'Temporada',
+    seasons: 'Temporadas',
     episode: 'Episodio',
     episodes: 'episodios',
     selectSeason: 'Selecciona una temporada:',
