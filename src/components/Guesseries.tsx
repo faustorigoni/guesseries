@@ -892,9 +892,10 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                   <button
                     onClick={() => {
                       const seriesName = series ? getLocalizedText(series.title, currentLanguage) : '';
+                      const seasonInfo = series ? ` - ${getTranslation('season', currentLanguage)} ${season}` : '';
                       const scoreText = currentLanguage === 'es' 
-                        ? `¡Obtuve ${score} puntos en ${seriesName}! Tiempo: ${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')} | Mult: ${finalMultiplier.toFixed(1)}x. Jugando en Guesseries 🎮`
-                        : `I got ${score} points in ${seriesName}! Time: ${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')} | Mult: ${finalMultiplier.toFixed(1)}x. Playing on Guesseries 🎮`;
+                        ? `¡Obtuve ${score} puntos en ${seriesName}${seasonInfo}! Tiempo: ${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')} | Mult: ${finalMultiplier.toFixed(1)}x. Jugando en Guesseries 🎮`
+                        : `I got ${score} points in ${seriesName}${seasonInfo}! Time: ${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')} | Mult: ${finalMultiplier.toFixed(1)}x. Playing on Guesseries 🎮`;
                       navigator.clipboard.writeText(scoreText);
                     }}
                     className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-500 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
