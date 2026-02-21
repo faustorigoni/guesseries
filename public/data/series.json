@@ -3,7 +3,7 @@
     "id": "1910",
     "title": {
       "en": "The Bridge",
-      "es": "El Puente"
+      "es": "El puente"
     },
     "year": "2011",
     "poster": "https://static.tvmaze.com/uploads/images/original_untouched/11/27700.jpg",
@@ -46,8 +46,8 @@
           {
             "id": "1910-S1E3",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 3",
+              "es": "Episodio 3"
             },
             "episode": 3,
             "season": 1,
@@ -60,8 +60,8 @@
           {
             "id": "1910-S1E4",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 4",
+              "es": "Episodio 4"
             },
             "episode": 4,
             "season": 1,
@@ -74,8 +74,8 @@
           {
             "id": "1910-S1E5",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 5",
+              "es": "Episodio 5"
             },
             "episode": 5,
             "season": 1,
@@ -88,8 +88,8 @@
           {
             "id": "1910-S1E6",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 6",
+              "es": "Episodio 6"
             },
             "episode": 6,
             "season": 1,
@@ -102,8 +102,8 @@
           {
             "id": "1910-S1E7",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 7",
+              "es": "Episodio 7"
             },
             "episode": 7,
             "season": 1,
@@ -116,8 +116,8 @@
           {
             "id": "1910-S1E8",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 8",
+              "es": "Episodio 8"
             },
             "episode": 8,
             "season": 1,
@@ -130,8 +130,8 @@
           {
             "id": "1910-S1E9",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 9",
+              "es": "Episodio 9"
             },
             "episode": 9,
             "season": 1,
@@ -144,8 +144,8 @@
           {
             "id": "1910-S1E10",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 10",
+              "es": "Episodio 10"
             },
             "episode": 10,
             "season": 1,
@@ -163,8 +163,8 @@
           {
             "id": "1910-S2E1",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 1",
+              "es": "Episodio 1"
             },
             "episode": 1,
             "season": 2,
@@ -177,8 +177,8 @@
           {
             "id": "1910-S2E2",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 2",
+              "es": "Episodio 2"
             },
             "episode": 2,
             "season": 2,
@@ -191,8 +191,8 @@
           {
             "id": "1910-S2E3",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 3",
+              "es": "Episodio 3"
             },
             "episode": 3,
             "season": 2,
@@ -205,8 +205,8 @@
           {
             "id": "1910-S2E4",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 4",
+              "es": "Episodio 4"
             },
             "episode": 4,
             "season": 2,
@@ -219,8 +219,8 @@
           {
             "id": "1910-S2E5",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 5",
+              "es": "Episodio 5"
             },
             "episode": 5,
             "season": 2,
@@ -233,8 +233,8 @@
           {
             "id": "1910-S2E6",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 6",
+              "es": "Episodio 6"
             },
             "episode": 6,
             "season": 2,
@@ -247,8 +247,8 @@
           {
             "id": "1910-S2E7",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 7",
+              "es": "Episodio 7"
             },
             "episode": 7,
             "season": 2,
@@ -261,8 +261,8 @@
           {
             "id": "1910-S2E8",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 8",
+              "es": "Episodio 8"
             },
             "episode": 8,
             "season": 2,
@@ -275,8 +275,8 @@
           {
             "id": "1910-S2E9",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 9",
+              "es": "Episodio 9"
             },
             "episode": 9,
             "season": 2,
@@ -289,8 +289,8 @@
           {
             "id": "1910-S2E10",
             "title": {
-              "en": "Episode X",
-              "es": "Episodio X"
+              "en": "Episode 10",
+              "es": "Episodio 10"
             },
             "episode": 10,
             "season": 2,
@@ -552,6 +552,601 @@
             "description": {
               "en": "La carrera de Belinda toma un rumbo totalmente nuevo. Paquita se alegra de que Belén esté rodando una película... hasta que se entera de qué va.",
               "es": "La carrera de Belinda toma un rumbo totalmente nuevo. Paquita se alegra de que Belén esté rodando una película... hasta que se entera de qué va."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "5881",
+    "title": {
+      "en": "Locked Up",
+      "es": "Vis a vis"
+    },
+    "year": "2015",
+    "poster": "https://static.tvmaze.com/uploads/images/original_untouched/62/155947.jpg",
+    "plot": {
+      "en": "Set up to take the blame for corporate fraud, young Macarena Ferreiro is locked up in a high-security women's prison surrounded by tough, ruthless criminals in this tense, provocative Spanish thriller.",
+      "es": "Su amante la manipuló para que cometiera varios delitos fiscales. Ahora, esta joven inocente deberá aprender a sobrevivir en un mundo nuevo y despiadado. Y rápido."
+    },
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "episodes": [
+          {
+            "id": "5881-S1E1",
+            "title": {
+              "en": "Dead Mosquito",
+              "es": "Un mal día"
+            },
+            "episode": 1,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455614.jpg",
+            "description": {
+              "en": "Unable to cope with prison life, Macarena is taken under the wing of her cellmate Yolanda. But a midnight visit from Zulema, the jail's self-appointed queen bee, is about to change her life for ever.",
+              "es": "La vida de Macarena se hace añicos cuando la condenan a siete años de cárcel por delitos fiscales, algo que trata de ocultar a sus padres."
+            }
+          },
+          {
+            "id": "5881-S1E2",
+            "title": {
+              "en": "Sewing Tinkerbell",
+              "es": "Cosiendo a Campanilla"
+            },
+            "episode": 2,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455615.jpg",
+            "description": {
+              "en": "Sole suffers a health crisis, and Macarena scrambles to find a way to warn her parents that they're in imminent danger.",
+              "es": "La salud de Sole empeora y Macarena busca el modo de avisar a sus padres de que corren peligro."
+            }
+          },
+          {
+            "id": "5881-S1E3",
+            "title": {
+              "en": "Everything Happens for a Reason",
+              "es": "Lo que sucede, conviene"
+            },
+            "episode": 3,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455616.jpg",
+            "description": {
+              "en": "Macarena races against a deadline to pay back her growing debt to Anabel. The SIM card goes missing and changes hands multiple times.",
+              "es": "Macarena debe saldar la creciente deuda que ha contraído con Anabel y el tiempo corre en su contra. La tarjeta SIM desaparece y pasa por diferentes manos."
+            }
+          },
+          {
+            "id": "5881-S1E4",
+            "title": {
+              "en": "A Day in the Country",
+              "es": "Un día de campo"
+            },
+            "episode": 4,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455617.jpg",
+            "description": {
+              "en": "When Zulema and Anabel harass Valbuena, he pits the two against each other. Rizos gets an offer she can't refuse, even if it means betraying Macarena.",
+              "es": "Zulema y Anabel acosan a Valbuena, que provoca el enfrentamiento entre ambas. Rizos recibe una oferta que no puede rechazar, aunque conlleve traicionar a Macarena."
+            }
+          },
+          {
+            "id": "5881-S1E5",
+            "title": {
+              "en": "Harsh Reality",
+              "es": "La cruda realidad"
+            },
+            "episode": 5,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455623.jpg",
+            "description": {
+              "en": "As the scene in the woods plays out in flashbacks, Rizos learns she must get a job on the outside, and Zulema reveals a secret to Saray's family.",
+              "es": "Mientras se desvela lo que ocurrió en el bosque, Rizos se entera de que debe conseguir un trabajo en el exterior y Zulema le desvela un secreto a la familia de Saray."
+            }
+          },
+          {
+            "id": "5881-S1E6",
+            "title": {
+              "en": "They'll Come for You",
+              "es": "Te vendrán a buscar"
+            },
+            "episode": 6,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455624.jpg",
+            "description": {
+              "en": "Anabel forces Macarena to pick up more drugs for her via a conjugal visit with a stranger. Leopoldo and Roman track down the Egyptian's camper van.",
+              "es": "Anabel obliga a Macarena a encontrarse en un vis a vis íntimo con un desconocido para recoger un paquete de droga. Leopoldo y Román localizan la autocaravana del Egipcio."
+            }
+          },
+          {
+            "id": "5881-S1E7",
+            "title": {
+              "en": "5 on the Dot",
+              "es": "A las 5 en punto de la tarde"
+            },
+            "episode": 7,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455625.jpg",
+            "description": {
+              "en": "Maca comes to realize she has proof of her relationship with Simon; their unborn son. But getting the fetus's DNA tested will be no easy task.",
+              "es": "Maca se da cuenta de que gracias a su futuro bebé puede demostrar su relación con Simón. Sin embargo, conseguir las pruebas de ADN del feto no va a ser nada fácil."
+            }
+          },
+          {
+            "id": "5881-S1E8",
+            "title": {
+              "en": "Pretty Woman",
+              "es": "Pretty Woman"
+            },
+            "episode": 8,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455626.jpg",
+            "description": {
+              "en": "Macarena's feelings of attraction to Rizos overwhelm her -- and confuse her. Leopoldo suffers a serious setback. Zulema attempts to escape.",
+              "es": "Los sentimientos de atracción hacia Rizos abruman y confunden a Macarena. Leopoldo sufre un grave contratiempo. Zulema intenta escapar."
+            }
+          },
+          {
+            "id": "5881-S1E9",
+            "title": {
+              "en": "Quid pro quo",
+              "es": "Negra, negrita, negrata"
+            },
+            "episode": 9,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455627.jpg",
+            "description": {
+              "en": "Zulema and Saray hold Macarena hostage in order to force the release of the Egyptian, but Leopoldo wants Hanbal to reveal where the money is first.",
+              "es": "Zulema y Saray usan a Macarena como rehén para forzar la liberación del Egipcio, pero Leopoldo quiere que Hanbal les revele antes el escondite del dinero."
+            }
+          },
+          {
+            "id": "5881-S1E10",
+            "title": {
+              "en": "Gray Cat",
+              "es": "Gato gris"
+            },
+            "episode": 10,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455628.jpg",
+            "description": {
+              "en": "Macarena agrees to be Rizos's girlfriend. Sandoval tries to convince Miranda to send Macarena, who's having visions of a cat, to a psychiatric prison.",
+              "es": "Macarena acepta ser la novia de Rizos. Sandoval intenta convencer a Miranda para que envíe a Macarena a la unidad penitenciaria de psiquiatría por las visiones que sufre."
+            }
+          },
+          {
+            "id": "5881-S1E11",
+            "title": {
+              "en": "The Turtle Principle",
+              "es": "El principio de las tortugas"
+            },
+            "episode": 11,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455629.jpg",
+            "description": {
+              "en": "A donor heart becomes available for Sole. Zulema offers Leopoldo the Egyptian in exchange for 8 million euros. Macarena makes an untimely discovery.",
+              "es": "Sole podría someterse a un trasplante de corazón. Zulema negocia con Leopoldo la entrega del Egipcio a cambio de 8 millones de euros. Macarena descubre algo inoportuno."
+            }
+          }
+        ]
+      },
+      {
+        "seasonNumber": 2,
+        "episodes": [
+          {
+            "id": "5881-S2E1",
+            "title": {
+              "en": "Two Guns for One Monkey",
+              "es": "A un mono, dos pistolas"
+            },
+            "episode": 1,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455630.jpg",
+            "description": {
+              "en": "An accident scares Macarena into fleeing overseas with the other escapees. Fabio makes a decision about his marriage. Miranda picks a security chief.",
+              "es": "Un percance obliga a Macarena a huir con el resto de las fugitivas. Fabio toma una decisión respecto a su matrimonio. Miranda nombra un jefe de seguridad."
+            }
+          },
+          {
+            "id": "5881-S2E2",
+            "title": {
+              "en": "Home Sweet Home",
+              "es": "Hogar, dulce hogar"
+            },
+            "episode": 2,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455631.jpg",
+            "description": {
+              "en": "Sandoval's wife gets a shock. Karim forces Zulema's lawyer to give him a lead on the Egyptian. Castillo's search of the Ferreiro home turns harrowing.",
+              "es": "La mujer de Sandoval se lleva una sorpresa. Karim intenta sacarle al abogado de Zulema pistas sobre el Egipcio. El registro de Castillo en casa de los Ferreiro acaba mal."
+            }
+          },
+          {
+            "id": "5881-S2E3",
+            "title": {
+              "en": "The Little Hen",
+              "es": "La gallinita"
+            },
+            "episode": 3,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455632.jpg",
+            "description": {
+              "en": "Castillo turns against Leopoldo and breaks his promises to help Macarena. The police are assigned a new case involving a missing teen girl.",
+              "es": "Castillo se enfrenta a Leopoldo y rompe la promesa de ayudar a Macarena. La policía se hace cargo de un nuevo caso relacionado con la desaparición de una joven."
+            }
+          },
+          {
+            "id": "5881-S2E4",
+            "title": {
+              "en": "A Body in the Trunk",
+              "es": "Un cadáver en el maletero"
+            },
+            "episode": 4,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455633.jpg",
+            "description": {
+              "en": "Macarena goes to great lengths to email Karim. Sole tracks down the family of the heart donor. Saray and Macarena learn what Valbuena did Rizos.",
+              "es": "Macarena no escatima esfuerzos para lograr enviar un correo a Karim. Sole localiza a la familia del donante. Saray y Macarena descubren lo que Valbuena hizo con Rizos."
+            }
+          },
+          {
+            "id": "5881-S2E5",
+            "title": {
+              "en": "In the Line of Fire I",
+              "es": "En la línea de fuego"
+            },
+            "episode": 5,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455634.jpg",
+            "description": {
+              "en": "Under the guise of a conjugal visit, Zulema shares a secret plan with Román that will benefit them both. In solitary, Saray falls prey to Sandoval.",
+              "es": "Durante un vis a vis, Zulema hace partícipe a Román de un plan secreto del que ambos podrán sacar provecho. Saray, en una celda de aislamiento, es víctima de Sandoval."
+            }
+          },
+          {
+            "id": "5881-S2E6",
+            "title": {
+              "en": "The Baboons",
+              "es": "Los mandriles"
+            },
+            "episode": 6,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455635.jpg",
+            "description": {
+              "en": "An undercover cop from Fabio's past and a suspect in the case of the missing teen enter the prison. Encarna brings the Egyptian's ashes to his mother.",
+              "es": "Una policía infiltrada, conocida de Fabio, y un sospechoso en el caso de la chica desaparecida ingresan en prisión. La madre del Egipcio recibe las cenizas de su hijo."
+            }
+          },
+          {
+            "id": "5881-S2E7",
+            "title": {
+              "en": "A Field Day",
+              "es": "Un día de campo"
+            },
+            "episode": 7,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455636.jpg",
+            "description": {
+              "en": "An outbreak of food poisoning prompts the inmates to launch a defiant protest. Macarena is granted a 24-hour leave, which takes a startling turn.",
+              "es": "Tras una intoxicación alimentaria, las reclusas organizan una protesta. Macarena obtiene un permiso extraordinario de 24 horas, que da un giro inesperado."
+            }
+          },
+          {
+            "id": "5881-S2E8",
+            "title": {
+              "en": "Life Goes On",
+              "es": "La vida sigue"
+            },
+            "episode": 8,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455637.jpg",
+            "description": {
+              "en": "Susana tells Helena she had a daughter. Sandoval shares a suspicion with Miranda about her husband. Fernando surprises Sole with a request.",
+              "es": "Susana le cuenta a Helena que tuvo una hija. Sandoval comparte una sospecha con Miranda acerca de su marido. Fernando sorprende a Sole proponiéndole algo."
+            }
+          },
+          {
+            "id": "5881-S2E9",
+            "title": {
+              "en": "Getting Your Fingers Burned",
+              "es": "Pillarse los dedos"
+            },
+            "episode": 9,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455638.jpg",
+            "description": {
+              "en": "Macarena has doubts about her relationship with Rizos. Zulema has a new plan and asks Macarena for help. Macarena's brother is in Morocco searching the money. The police investigation continues.",
+              "es": "Zulema busca el modo de hacer tambalear la lealtad de Susana hacia su marido. Sole y Fernando se encuentran en un vis a vis. Román está en Marruecos buscando el dinero."
+            }
+          },
+          {
+            "id": "5881-S2E10",
+            "title": {
+              "en": "Sins and Confusions",
+              "es": "Pecados y confusiones"
+            },
+            "episode": 10,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455639.jpg",
+            "description": {
+              "en": "Rizos proposes a sexy fundraiser for Macarena's legal defense. Palacios makes a confession to Fabio. Zulema goes to extremes to get out of solitary.",
+              "es": "Rizos tiene una sugerente idea para financiar la defensa de Macarena. Palacios le confiesa algo a Fabio. Zulema hace lo imposible para salir del aislamiento."
+            }
+          },
+          {
+            "id": "5881-S2E11",
+            "title": {
+              "en": "Patron of the Desperate",
+              "es": "Patrona de los desesperados"
+            },
+            "episode": 11,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455640.jpg",
+            "description": {
+              "en": "Amaia's parents ask to see Zulema. When Rizos is jumped for taking over the drug trade, Macarena searches for a way to strip Anabel of her power.",
+              "es": "Los padres de Amaia solicitan una entrevista con Zulema. Rizos, ahora jefa del trapicheo en prisión, recibe una paliza. Macarena intenta despojar a Anabel de su poder."
+            }
+          },
+          {
+            "id": "5881-S2E12",
+            "title": {
+              "en": "Banana and Lemon",
+              "es": "Plátano y limón"
+            },
+            "episode": 12,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455641.jpg",
+            "description": {
+              "en": "Sole is scared off by the hope Fernando offers her. A judge hears Zulema's request for a deal. Fabio makes a change in plans that stuns Macarena.",
+              "es": "La propuesta de Fernando asusta a Sole. Zulema se presenta ante un juez para negociar un trato. Macarena no da crédito al cambio de planes de Fabio."
+            }
+          },
+          {
+            "id": "5881-S2E13",
+            "title": {
+              "en": "Liquid",
+              "es": "Líquido"
+            },
+            "episode": 13,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455642.jpg",
+            "description": {
+              "en": "Sole's big day arrives. Sandoval receives an offer. As time runs out, Macarena ruthlessly tries to force Zulema to reveal Amaia's location.",
+              "es": "Llega el gran día de Sole. Sandoval recibe una oferta. El tiempo se agota y Macarena usa todos los métodos para sacarle a Zulema información sobre el paradero de Amaia."
+            }
+          }
+        ]
+      },
+      {
+        "seasonNumber": 3,
+        "episodes": [
+          {
+            "id": "5881-S3E1",
+            "title": {
+              "en": "North Cross",
+              "es": "Cruz del Norte"
+            },
+            "episode": 1,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455645.jpg",
+            "description": {
+              "en": "Due to overcrowding, Macarena and her friends -- and enemies -- are transferred to a new prison. Sole gets news about her husband that interests Anabel.",
+              "es": "Debido a la falta de espacio, Macarena, sus amigas y sus enemigas son trasladadas a una nueva prisión. Anabel se interesa por las noticias que Sole recibe de su marido."
+            }
+          },
+          {
+            "id": "5881-S3E2",
+            "title": {
+              "en": "Very Easy or Very Difficult",
+              "es": "Muy fácil o muy difícil"
+            },
+            "episode": 2,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455646.jpg",
+            "description": {
+              "en": "The Chinese gang gives Mercedes a mission. Fabio pays Macarena a visit. Altagracia executes an illicit plan to find out who killed her colleague.",
+              "es": "Mercedes debe cumplir una misión de la tríada china. Fabio visita a Macarena. Altagracia lleva a cabo un plan ilegal para descubrir quién asesinó a su colega."
+            }
+          },
+          {
+            "id": "5881-S3E3",
+            "title": {
+              "en": "One Grain of Rice",
+              "es": "Un grano de arroz"
+            },
+            "episode": 3,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455647.jpg",
+            "description": {
+              "en": "Altagracia learns an upsetting truth about Unai. Saray receives shocking news from her mother. The Chinese gang spots Anabel stealing their drug trade.",
+              "es": "Altagracia descubre un secreto decepcionante sobre Unai. La madre de Saray le da una noticia impactante. La tríada china ya sabe que Anabel vende drogas."
+            }
+          },
+          {
+            "id": "5881-S3E4",
+            "title": {
+              "en": "The Flag on the Wall",
+              "es": "La bandera en  el muro"
+            },
+            "episode": 4,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455648.jpg",
+            "description": {
+              "en": "Zulema learns about the Chinese gang's escape plan and drug-smuggling method, and takes steps to hijack both. Sole seeks to avenge her husband's murder.",
+              "es": "Cuando Zulema se entera del plan de fuga de la tríada china y del método para traficar, decide apropiarse de los dos. Sole quiere vengar el asesinato de su marido."
+            }
+          },
+          {
+            "id": "5881-S3E5",
+            "title": {
+              "en": "Someone Who Doesn't Give a Shit About You",
+              "es": "Alguien a quien le importes una mierda"
+            },
+            "episode": 5,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455649.jpg",
+            "description": {
+              "en": "Mercedes's daughter goes missing. Altagracia's investigation of the cash found in Unai's locker puts a target on her back. Tere again faces temptation.",
+              "es": "La hija de Mercedes ha desaparecido. La investigación de Altagracia sobre el dinero descubierto en la taquilla de Unai la pone en peligro. Tere se ve tentada de nuevo."
+            }
+          },
+          {
+            "id": "5881-S3E6",
+            "title": {
+              "en": "Six Months Is a Long Time",
+              "es": "Seis meses dan para mucho"
+            },
+            "episode": 6,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455650.jpg",
+            "description": {
+              "en": "A smuggling malfunction causes chaos in the henhouse. Mercedes learns who was actually behind her daughter's disappearance. Rojas shares her bad news.",
+              "es": "Un material de contrabando defectuoso siembra el caos en el gallinero. Mercedes descubre quién estaba detrás del secuestro de su hija. Rojas da una mala noticia."
+            }
+          },
+          {
+            "id": "5881-S3E7",
+            "title": {
+              "en": "We Were Girls",
+              "es": "Fuimos niñas"
+            },
+            "episode": 7,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455651.jpg",
+            "description": {
+              "en": "Per an Easter tradition, a Cruz del Norte inmate is selected to be pardoned. With Altagracia's help, Zulema negotiates a deal with Hong Fang.",
+              "es": "Siguiendo una tradición de Semana Santa, una reclusa de Cruz del Norte será la elegida para el indulto. Con la ayuda de Altagracia, Zulema hace un trato con Hong Fang."
+            }
+          },
+          {
+            "id": "5881-S3E8",
+            "title": {
+              "en": "What We Know About Monsters",
+              "es": "Lo que sabemos de los monstruos"
+            },
+            "episode": 8,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455652.jpg",
+            "description": {
+              "en": "Altagracia sets out to avenge Unai's murder. Zulema decides to fulfill her promise to Saray. Mercedes gets caught in a showdown between sibling rivals.",
+              "es": "Altagracia quiere vengar el asesinato de Unai. Zulema decide cumplir la promesa que le hizo a Saray. Mercedes se ve envuelta en un enfrentamiento entre hermanos rivales."
+            }
+          }
+        ]
+      },
+      {
+        "seasonNumber": 4,
+        "episodes": [
+          {
+            "id": "5881-S4E1",
+            "title": {
+              "en": "The Barbie",
+              "es": "La Barbie"
+            },
+            "episode": 1,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455658.jpg",
+            "description": {
+              "en": "A familiar face becomes Cruz del Norte's director, and an ex-jailer arrives as an inmate. Zulema does whatever it takes to avoid going back to prison.",
+              "es": "El nuevo director de Cruz del Norte es una cara conocida y una excarcelera es ahora una reclusa. Zulema está dispuesta a todo para no volver a la cárcel."
+            }
+          },
+          {
+            "id": "5881-S4E2",
+            "title": {
+              "en": "The Escape",
+              "es": "La fuga"
+            },
+            "episode": 2,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455659.jpg",
+            "description": {
+              "en": "An inmate dares to swipe the drugs left in the middle of the floor. Altagracia uses her knowledge of the prison's inner workings to devise an escape.",
+              "es": "Una reclusa se queda con la droga que encuentra en el suelo. Altagracia aprovecha todo lo que sabe sobre el funcionamiento de la cárcel para planear su fuga."
+            }
+          },
+          {
+            "id": "5881-S4E3",
+            "title": {
+              "en": "Threshold of Pain",
+              "es": "El umbral del dolor"
+            },
+            "episode": 3,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455660.jpg",
+            "description": {
+              "en": "When Zulema refuses to reveal Altagracia's location, all the inmates receive the same punishment she gets. Sole gives Tere a grave responsibility.",
+              "es": "Cuando Zulema se niega a desvelar dónde se encuentra Altagracia, todas las reclusas reciben el mismo castigo que ella. Sole le pide a Tere el favor más grande de su vida."
+            }
+          },
+          {
+            "id": "5881-S4E4",
+            "title": {
+              "en": "Mum",
+              "es": "Mamá"
+            },
+            "episode": 4,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455661.jpg",
+            "description": {
+              "en": "Goya immediately preys upon Fátima. Zulema and Altagracia try to force Sandoval's hand by targeting the person he cares about most: his ex-wife.",
+              "es": "Goya no tarda en acosar a Fátima. Zulema y Altagracia le hacen chantaje a Sandoval con la persona que más le importa: su exmujer."
+            }
+          },
+          {
+            "id": "5881-S4E5",
+            "title": {
+              "en": "Betrayal",
+              "es": "Traición"
+            },
+            "episode": 5,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455662.jpg",
+            "description": {
+              "en": "An inmate says a difficult goodbye. The choir performs at a retirement home, where some of the singers use the opportunity to stock up on drugs.",
+              "es": "A una reclusa le espera una amarga despedida. El coro actúa en un geriátrico, donde algunas de las cantantes aprovechan para robar medicamentos."
+            }
+          },
+          {
+            "id": "5881-S4E6",
+            "title": {
+              "en": "Bad Person",
+              "es": "Mala persona"
+            },
+            "episode": 6,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455663.jpg",
+            "description": {
+              "en": "Sad news leads Tere to a happy reunion. Sandoval finally succeeds in awakening Zulema's maternal instinct and uses it as a weapon against her.",
+              "es": "Tere recibe una noticia muy triste que propiciará un feliz reencuentro. Sandoval consigue por fin despertar el instinto maternal de Zulema y lo usa contra ella."
+            }
+          },
+          {
+            "id": "5881-S4E7",
+            "title": {
+              "en": "Back Home",
+              "es": "Vuelta a casa"
+            },
+            "episode": 7,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/182/455664.jpg",
+            "description": {
+              "en": "An inmate comes back from the brink of death. Sandoval sets out to complete his mission of revenge. Sole's exit strategy hits a snag.",
+              "es": "Vuelve a la cárcel una reclusa que estaba a las puertas de la muerte. Sandoval decide cumplir su venganza. El plan de Sole y Tere sufre un imprevisto."
+            }
+          },
+          {
+            "id": "5881-S4E8",
+            "title": {
+              "en": "The Yellow Tide",
+              "es": "La marea amarilla"
+            },
+            "episode": 8,
+            "season": 4,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/290/725595.jpg",
+            "description": {
+              "en": "Two old flames are reunited. Sole leaves on her own terms, while Zulema decides what Sandoval's ending will be. The inmates' fates are revealed.",
+              "es": "Dos antiguas amantes se vuelven a encontrar. Sole se despide como ella quería. Zulema decide cómo va a acabar sus días Sandoval. ¿Qué será de las reclusas?"
             }
           }
         ]
