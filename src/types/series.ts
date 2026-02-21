@@ -31,6 +31,7 @@ export type LocalizedString = string | { en: string; es: string }
 export interface LanguageConfig {
   code: 'en' | 'es'
   name: string
+  flag: string
 }
 
 // Función de utilidad para obtener texto en idioma específico

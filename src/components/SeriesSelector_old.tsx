@@ -21,8 +21,12 @@ export default function SeriesSelector({ series, onSeriesSelect, currentLanguage
     const savedLanguage = localStorage.getItem('guesseries-language') as 'en' | 'es' | null
     if (savedLanguage) {
       setLanguage(savedLanguage)
+      // Notificar al componente padre sobre el cambio de idioma
+      if (savedLanguage !== currentLanguage) {
+        onSeriesSelect = onSeriesSelect // Esto no funciona, necesitamos pasar el idioma hacia arriba
+      }
     }
-  }, [])
+  }, [currentLanguage])
 
   // Sincronizar con el prop currentLanguage si cambia
   useEffect(() => {
@@ -68,53 +72,67 @@ export default function SeriesSelector({ series, onSeriesSelect, currentLanguage
       </motion.h1>
       
       <div className="max-w-4xl mx-auto w-full">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8"
+        <motion.h1 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="text-2xl font-semibold text-purple-200 mb-8 text-center"
         >
-          <motion.h1 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-2xl font-semibold text-purple-200 mb-8 text-center"
-          >
-            {getTranslation('selectSeries', language)}
-          </motion.h1>
-          
-          {series.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-xl text-purple-300 mb-4">
-                {getTranslation('noSeriesAvailable', language)}
-              </p>
-              <p className="text-purple-200">
-                {getTranslation('contactAdmin', language)}
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {series.filter((s): s is NonNullable<typeof s> => s != null).map((s) => (
-                <motion.div
-                  key={s.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className={`bg-white/5 border-2 rounded-xl p-6 cursor-pointer transition-all ${
-                    selectedSeries?.id === s.id 
-                      ? 'border-purple-400 bg-purple-500/20' 
-                      : 'border-white/20 hover:border-purple-300 hover:bg-white/10'
-                  }`}
-                  onClick={() => handleSeriesSelect(s)}
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <img
-                      src={s.poster}
+          {getTranslation('selectSeries', language)}
+        </motion.h1>
+        
+        {series.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-xl text-purple-300 mb-4">
+              No hay series disponibles todavía.
+            </p>
+            <p className="text-purple-200">
+              Contacta al administrador para agregar series al juego.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {series.filter((s): s is NonNullable<typeof s> => s != null).map((s) => (
+              <motion.div
+                key={s.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.05 }}
+                className={`bg-white/5 border-2 rounded-xl p-6 cursor-pointer transition-all ${
+                  selectedSeries?.id === s.id 
+                    ? 'border-purple-400 bg-purple-500/20' 
+                    : 'border-white/20 hover:border-purple-300 hover:bg-white/10'
+                }`}
+                onClick={() => handleSeriesSelect(s)}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <img
+                    src={s.poster}
+                    alt={getLocalizedText(s.title, language)}
+                    className="w-32 h-48 object-cover rounded-lg mb-4"
+                  />
+                  <h3 className="text-xl font-bold text-white mb-2">{getLocalizedText(s.title, language)}</h3>
+                  <p className="text-purple-300 text-sm mb-2">{s.year}</p>
+                  <p className="text-purple-200 text-xs">{s.seasons.length} {getTranslation('episodes', language)}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-xl text-purple-300 mb-4">
+              {getTranslation('noSeriesAvailable', language)}
+            </p>
+            <p className="text-purple-200">
+              {getTranslation('contactAdmin', language)}
+            </p>
+          </div>
                       alt={getLocalizedText(s.title, language)}
                       className="w-32 h-48 object-cover rounded-lg mb-4"
                     />
                     <h3 className="text-xl font-bold text-white mb-2">{getLocalizedText(s.title, language)}</h3>
                     <p className="text-purple-300 text-sm mb-2">{s.year}</p>
-                    <p className="text-purple-200 text-xs">{s.seasons.length} {getTranslation('seasons', language)}</p>
+                    <p className="text-purple-200 text-xs">{s.seasons.length} temporadas</p>
                   </div>
                 </motion.div>
               ))}
@@ -133,20 +151,23 @@ export default function SeriesSelector({ series, onSeriesSelect, currentLanguage
               
               <div className="mb-6">
                 <label className="block text-lg font-medium text-purple-200 mb-3">
-                  {getTranslation('selectSeason', language)}
+                  Selecciona una temporada:
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                   {selectedSeries.seasons.map((season) => (
                     <button
                       key={season.seasonNumber}
                       onClick={() => setSelectedSeason(season.seasonNumber)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      className={`py-3 px-4 rounded-lg font-medium transition-all ${
                         selectedSeason === season.seasonNumber
                           ? 'bg-purple-600 text-white'
-                          : 'bg-white/20 text-purple-700 hover:bg-white/30'
+                          : 'bg-white/10 text-purple-300 hover:bg-white/20'
                       }`}
                     >
-                      {getTranslation('season', language)} {season.seasonNumber}
+                      Temporada {season.seasonNumber}
+                      <span className="block text-xs mt-1">
+                        {season.episodes.length} episodios
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -155,9 +176,9 @@ export default function SeriesSelector({ series, onSeriesSelect, currentLanguage
               <div className="text-center">
                 <button
                   onClick={handlePlay}
-                  className="px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                  className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold text-lg rounded-xl transition-colors"
                 >
-                  {getTranslation('play', language)}
+                  Jugar con Temporada {selectedSeason}
                 </button>
               </div>
             </motion.div>

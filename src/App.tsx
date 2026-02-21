@@ -14,6 +14,21 @@ function App() {
   const [currentSeason, setCurrentSeason] = useState<number>(1)
   const [availableSeries, setAvailableSeries] = useState<Series[]>([])
   const [gameStarted, setGameStarted] = useState(false)
+  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'es'>('en')
+
+  // Cargar preferencia de idioma desde localStorage
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('guesseries-language') as 'en' | 'es' | null
+    if (savedLanguage) {
+      setCurrentLanguage(savedLanguage)
+    }
+  }, [])
+
+  // Manejar cambio de idioma global
+  const handleLanguageChange = (language: 'en' | 'es') => {
+    setCurrentLanguage(language)
+    localStorage.setItem('guesseries-language', language)
+  }
 
   useEffect(() => {
     // Cargar series desde la API
@@ -62,6 +77,8 @@ function App() {
               <SeriesSelector 
                 series={availableSeries}
                 onSeriesSelect={handleSeriesSelect}
+                currentLanguage={currentLanguage}
+                onLanguageChange={handleLanguageChange}
               />
             ) : (
               <div className="min-h-screen flex items-center justify-center p-6">
@@ -70,6 +87,8 @@ function App() {
                     series={currentSeries}
                     season={currentSeason}
                     onBackToMenu={handleBackToMenu}
+                    currentLanguage={currentLanguage}
+                    onLanguageChange={handleLanguageChange}
                   />
                 </div>
               </div>

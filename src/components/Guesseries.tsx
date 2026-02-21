@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { paquitaSalasEpisodes, Episode } from '../data/episodes'
-import { Series, getLocalizedText, LanguageConfig } from '../types/series'
+import { Series, getLocalizedText } from '../types/series'
 import { playCorrectSound, playIncorrectSound } from '../utils/sounds'
+import LanguageSelector from './LanguageSelector'
+import { getTranslation } from '../utils/translations'
 
 type CheckResult = 'correct' | 'incorrect' | null
 
@@ -10,10 +12,12 @@ interface GuesseriesProps {
   series?: Series | null
   season?: number
   onBackToMenu?: () => void
+  currentLanguage: 'en' | 'es'
+  onLanguageChange: (language: 'en' | 'es') => void
 }
 
-function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
-  // Usar episodios de la serie proporcionada o los de Paquita Salas por defecto
+function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLanguageChange }: GuesseriesProps) {
+  // Usar episodios de la serie proporcionada
   const currentSeriesEpisodes = series ? 
     series.seasons.find(s => s.seasonNumber === season)?.episodes || [] :
     paquitaSalasEpisodes
@@ -41,15 +45,13 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
   const [gameStartTime, setGameStartTime] = useState<number | null>(null)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [showScore, setShowScore] = useState(false)
+  const [gameFinished, setGameFinished] = useState(false)
   const [finalMultiplier, setFinalMultiplier] = useState(2.0)
   const hasCheckedRef = useRef(false)
   
-  // Estado para idioma
-  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'es'>('en')
-  
-  const languages: LanguageConfig[] = [
-    { code: 'en', name: 'English' },
-    { code: 'es', name: 'Español' }
+  const languages = [
+    { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
+    { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' }
   ]
 
   // Actualizar episodios cuando cambia la serie o temporada
@@ -77,22 +79,10 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
     setGameStartTime(null)
     setElapsedTime(0)
     setShowScore(false)
+    setGameFinished(false)
     setFinalMultiplier(2.0)
     hasCheckedRef.current = false
   }, [series, season])
-
-  // Cargar preferencia de idioma desde localStorage
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem('guesseries-language') as 'en' | 'es' | null
-    if (savedLanguage && languages.find(lang => lang.code === savedLanguage)) {
-      setCurrentLanguage(savedLanguage)
-    }
-  }, [])
-
-  // Guardar preferencia de idioma cuando cambia
-  useEffect(() => {
-    localStorage.setItem('guesseries-language', currentLanguage)
-  }, [currentLanguage])
 
   const currentEpisode = shuffledEpisodes[currentEpisodeIndex]
 
@@ -150,6 +140,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
   }
 
   const handleDragStart = (e: React.DragEvent, episode: Episode) => {
+    if (gameFinished) return
     setDraggedEpisode(episode)
     setIsDragging(true)
     e.dataTransfer.effectAllowed = 'move'
@@ -333,7 +324,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
   }, [draggedFromSlot])
 
   const removeFromSlot = (slotIndex: number) => {
-    if (isChecking) return
+    if (isChecking || gameFinished) return
     const newOrdered = [...orderedEpisodes]
     const removedEpisode = newOrdered[slotIndex]
     newOrdered[slotIndex] = null
@@ -377,6 +368,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
     setGameStartTime(null)
     setElapsedTime(0)
     setShowScore(false)
+    setGameFinished(false)
     setFinalMultiplier(2.0)
     hasCheckedRef.current = false
     setShowResetModal(false)
@@ -391,14 +383,14 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
 
   // Temporizador para contar el tiempo transcurrido
   useEffect(() => {
-    if (!gameStartTime || isChecking || showScore) return
+    if (!gameStartTime || isChecking || showScore || gameFinished) return
 
     const interval = setInterval(() => {
       setElapsedTime(Math.floor((Date.now() - gameStartTime) / 1000))
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [gameStartTime, isChecking, showScore])
+  }, [gameStartTime, isChecking, showScore, gameFinished])
 
   // Iniciar temporizador cuando se coloca la primera tarjeta
   useEffect(() => {
@@ -453,6 +445,8 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
     setFinalMultiplier(multiplier)
     setElapsedTime(finalTime) // Congelar el tiempo
     setShowScore(true)
+    setGameFinished(true)
+    setGameStartTime(null) // Detener completamente el tiempo
     setIsChecking(false)
   }
 
@@ -466,6 +460,14 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
 
   return (
     <main className="min-h-screen flex flex-col items-center p-6 md:p-8">
+      {/* Selector de idiomas flotante a la izquierda */}
+      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
+        <LanguageSelector 
+          currentLanguage={currentLanguage} 
+          onLanguageChange={onLanguageChange}
+        />
+      </div>
+      
       <div className="w-full max-w-6xl relative">
         {/* Botón volver al menú */}
         {onBackToMenu && (
@@ -473,7 +475,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
             onClick={onBackToMenu}
             className="absolute top-0 left-4 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-colors"
           >
-            ← Volver al Menú
+            {getTranslation('backToMenu', currentLanguage)}
           </button>
         )}
 
@@ -483,7 +485,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
           disabled={isChecking}
           className="absolute top-0 right-0 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed text-sm"
         >
-          Reiniciar juego
+          {getTranslation('reset', currentLanguage)}
         </button>
 
         {/* Tiempo flotante durante el juego */}
@@ -507,7 +509,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
           animate={{ opacity: 1, y: 0 }}
           className="text-5xl font-bold text-white mb-2 tracking-tight text-center"
         >
-          {series ? getLocalizedText(series.title, currentLanguage) : 'Guesseries'}
+          {getTranslation('guesseries', currentLanguage)}
         </motion.h1>
         <motion.h1 
           initial={{ opacity: 0 }}
@@ -515,26 +517,9 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
           transition={{ delay: 0.1 }}
           className="text-xl text-purple-200 mb-8 text-center"
         >
-          {series ? getLocalizedText(series.title, currentLanguage) : 'Guesseries'}
+          {series ? `${getLocalizedText(series.title, currentLanguage)} - ${getTranslation('season', currentLanguage)} ${season}` : ''}
         </motion.h1>
         
-        {/* Selector de idioma */}
-        <div className="flex justify-center mb-6">
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => setCurrentLanguage(lang.code)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                currentLanguage === lang.code
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-white/20 text-purple-700 hover:bg-white/30'
-              }`}
-            >
-              {lang.name}
-            </button>
-          ))}
-        </div>
-
         {/* Tarjeta grande arriba con navegación */}
         <motion.div 
           className="relative"
@@ -608,7 +593,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                   }}
                   exit={{ opacity: 0, scale: 0.8, y: -20 }}
                   transition={{ duration: 0.3 }}
-                  draggable
+                  draggable={!gameFinished}
                   onDragStart={(e) => handleDragStart(e, currentEpisode)}
                   onDragEnd={(e) => handleDragEnd(e)}
                   className="w-full max-w-3xl bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-2xl cursor-grab active:cursor-grabbing"
@@ -699,10 +684,10 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
         >
           <p className="text-lg text-purple-300 text-center">
             {isChecking
-              ? 'Comprobando respuestas...'
+              ? getTranslation('checking', currentLanguage)
               : allPlaced
-                ? '¡Revisa tus resultados! Puedes reorganizar las tarjetas arrastrándolas.'
-                : 'Arrastra la tarjeta a una de las posiciones numeradas para ordenar los episodios'}
+                ? getTranslation('checkResults', currentLanguage)
+                : getTranslation('dragToOrder', currentLanguage)}
           </p>
           {allPlaced && !isChecking && !showScore && (
             <div className="flex gap-4">
@@ -710,13 +695,13 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                 onClick={handleCheckAnswers}
                 className="px-6 py-3 rounded-xl bg-green-500/20 hover:bg-green-500/30 border border-green-400/50 text-white transition-colors font-semibold"
               >
-                Comprobar
+                {getTranslation('check', currentLanguage)}
               </button>
               <button
                 onClick={resetGame}
                 className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-colors"
               >
-                Reiniciar juego
+                {getTranslation('reset', currentLanguage)}
               </button>
             </div>
           )}
@@ -745,9 +730,9 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
             return (
               <motion.div
                 key={index}
-                onDragOver={!isChecking && !showScore ? (e) => handleDragOver(e, index) : undefined}
+                onDragOver={!isChecking && !showScore && !gameFinished ? (e) => handleDragOver(e, index) : undefined}
                 onDragLeave={handleDragLeave}
-                onDrop={!isChecking && !showScore ? (e) => handleDrop(e, index) : undefined}
+                onDrop={!isChecking && !showScore && !gameFinished ? (e) => handleDrop(e, index) : undefined}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,
@@ -771,7 +756,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                         scale: 1,
                       }}
                       transition={{ duration: 0.2 }}
-                      draggable={!isChecking && !showScore}
+                      draggable={!isChecking && !showScore && !gameFinished}
                       onDragStart={(e) => handleSlotDragStart(e, episode, index)}
                       onDrag={(e) => {
                         if (e.clientX && e.clientY) {
@@ -816,7 +801,7 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
                       <p className="text-xs text-purple-200 line-clamp-2">
                         {getLocalizedText(episode.description, currentLanguage)}
                       </p>
-                      {!isChecking && !showScore && (
+                      {!isChecking && !showScore && !gameFinished && (
                         <button
                           onClick={() => removeFromSlot(index)}
                           className="absolute top-2 right-2 w-6 h-6 bg-red-500/30 hover:bg-red-500/50 rounded-full flex items-center justify-center transition-colors z-10"
@@ -850,15 +835,88 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="text-center mt-6"
+              className="fixed inset-0 flex items-center justify-center z-50"
             >
-              <p className="text-3xl font-bold text-yellow-400 mb-2">
-                ¡Tu puntaje es: {score}!
-              </p>
-              <p className="text-lg text-purple-200">
-                Tiempo: {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')} | 
-                Multiplicador: {finalMultiplier.toFixed(1)}x
-              </p>
+              <div className="bg-gradient-to-br from-purple-900/95 via-purple-800/95 to-purple-900/95 backdrop-blur-xl rounded-2xl border-2 border-purple-400/50 p-8 mx-4 max-w-md w-full shadow-2xl relative">
+                {/* Botón de cierre */}
+                <button
+                  onClick={() => setShowScore(false)}
+                  className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                >
+                  <span className="text-white text-xl">×</span>
+                </button>
+                
+                {/* Icono de trofeo */}
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-yellow-400/20 rounded-full flex items-center justify-center">
+                    <span className="text-4xl">🏆</span>
+                  </div>
+                </div>
+                
+                {/* Título principal */}
+                <h2 className="text-3xl font-bold text-yellow-400 mb-2 text-center">
+                  {getTranslation('excellentWork', currentLanguage)}
+                </h2>
+                
+                {/* Puntaje grande */}
+                <div className="text-5xl font-bold text-white mb-4 text-center">
+                  {score}
+                  <span className="text-2xl text-yellow-400 ml-2">pts</span>
+                </div>
+                
+                {/* Estadísticas */}
+                <div className="bg-black/30 rounded-lg p-4 mb-6">
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                      <p className="text-purple-300 text-sm">{getTranslation('time', currentLanguage)}</p>
+                      <p className="text-white font-semibold">
+                        {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-purple-300 text-sm">{getTranslation('multiplier', currentLanguage)}</p>
+                      <p className="text-white font-semibold">
+                        {finalMultiplier.toFixed(1)}x
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Botones */}
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={() => {
+                      const scoreText = currentLanguage === 'es' 
+                        ? `¡Obtuve ${score} puntos en ${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')} con ${finalMultiplier.toFixed(1)}x multiplicador! en Guesseries 🎮`
+                        : `I got ${score} points in ${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')} with ${finalMultiplier.toFixed(1)}x multiplier! on Guesseries 🎮`;
+                      navigator.clipboard.writeText(scoreText);
+                    }}
+                    className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-500 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    {getTranslation('copyResult', currentLanguage)}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowScore(false);
+                      // Resetear para nueva partida
+                      setScore(0);
+                      setGameStartTime(null);
+                      setElapsedTime(0);
+                      setFinalMultiplier(2.0);
+                      setGameFinished(false);
+                      hasCheckedRef.current = false;
+                      setOrderedEpisodes(Array(currentSeriesEpisodes.length).fill(null));
+                      setShuffledEpisodes([...currentSeriesEpisodes].sort(() => Math.random() - 0.5));
+                      setCurrentEpisodeIndex(0);
+                      setCheckResults(Array(currentSeriesEpisodes.length).fill(null));
+                      setIsChecking(false);
+                    }}
+                    className="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    {getTranslation('playAgain', currentLanguage)}
+                  </button>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -898,23 +956,23 @@ function Guesseries({ series, season = 1, onBackToMenu }: GuesseriesProps) {
               className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 md:p-8 max-w-md w-full mx-4"
             >
               <h3 className="text-2xl font-bold text-white mb-4 text-center">
-                ¿Reiniciar juego?
+                {getTranslation('resetConfirmTitle', currentLanguage)}
               </h3>
               <p className="text-purple-200 mb-6 text-center">
-                Se perderán todas las tarjetas colocadas y tendrás que empezar de nuevo.
+                {getTranslation('resetConfirmMessage', currentLanguage)}
               </p>
               <div className="flex gap-4">
                 <button
                   onClick={cancelReset}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-colors"
                 >
-                  Cancelar
+                  {getTranslation('cancel', currentLanguage)}
                 </button>
                 <button
                   onClick={confirmReset}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 text-white transition-colors font-semibold"
                 >
-                  Reiniciar
+                  {getTranslation('confirm', currentLanguage)}
                 </button>
               </div>
             </motion.div>

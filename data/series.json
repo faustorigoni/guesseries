@@ -303,5 +303,259 @@
         ]
       }
     ]
+  },
+  {
+    "id": "22157",
+    "title": {
+      "en": "Paquita Salas",
+      "es": "Paquita Salas"
+    },
+    "year": "2016",
+    "poster": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+    "plot": {
+      "en": "One of Spain's best talent agents in the '90s, Paquita now finds herself searching desperately for new stars after suddenly losing her biggest client.",
+      "es": "Paquita, una de las mejores representantes de actores de España en los 90, se ve buscando nuevas estrellas desesperadamente, después de perder a su mayor cliente."
+    },
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "episodes": [
+          {
+            "id": "22157-S1E1",
+            "title": {
+              "en": "Married to This",
+              "es": "Casada con esto"
+            },
+            "episode": 1,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita Salas es una de las mejores representantes de actores de España de los 90. Dirige PS Management y cuenta con la actriz Macarena García entre sus representados.",
+              "es": "Paquita Salas es una de las mejores representantes de actores de España de los 90. Dirige PS Management y cuenta con la actriz Macarena García entre sus representados."
+            }
+          },
+          {
+            "id": "22157-S1E2",
+            "title": {
+              "en": "The Actress 360",
+              "es": "La actriz 360"
+            },
+            "episode": 2,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita regresa de la Seminci de Valladolid. Tras perder a su actriz fetiche, decide librarse de todo lo que le recuerda a ella y se lanza a cazar talentos.",
+              "es": "Paquita regresa de la Seminci de Valladolid. Tras perder a su actriz fetiche, decide librarse de todo lo que le recuerda a ella y se lanza a cazar talentos."
+            }
+          },
+          {
+            "id": "22157-S1E3",
+            "title": {
+              "en": "Back to Navarrete",
+              "es": "Hasta Navarrete"
+            },
+            "episode": 3,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "La nueva apuesta de la agencia es Mariona. Una llamada inesperada hace que Paquita vuelva a su pueblo. Se reencontrará con su madre, sus viejos amigos y un antiguo amor.",
+              "es": "La nueva apuesta de la agencia es Mariona. Una llamada inesperada hace que Paquita vuelva a su pueblo. Se reencontrará con su madre, sus viejos amigos y un antiguo amor."
+            }
+          },
+          {
+            "id": "22157-S1E4",
+            "title": {
+              "en": "Divacel",
+              "es": "Divacel"
+            },
+            "episode": 4,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Magüi continúa enamorada en secreto de Álex. Paquita, cansada de no conseguir cástines para Mariona e inspirada en una vendedora ambulante, cambia de táctica.",
+              "es": "Magüi continúa enamorada en secreto de Álex. Paquita, cansada de no conseguir cástines para Mariona e inspirada en una vendedora ambulante, cambia de táctica."
+            }
+          },
+          {
+            "id": "22157-S1E5",
+            "title": {
+              "en": "The Magic in You",
+              "es": "La magia que hay en ti"
+            },
+            "episode": 5,
+            "season": 1,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Mariona ha conseguido protagonizar una película con una promesa del cine español. Paquita, como cada año, invita a la gran vidente María Rosa a que les adivine el futuro.",
+              "es": "Mariona ha conseguido protagonizar una película con una promesa del cine español. Paquita, como cada año, invita a la gran vidente María Rosa a que les adivine el futuro."
+            }
+          }
+        ]
+      },
+      {
+        "seasonNumber": 2,
+        "episodes": [
+          {
+            "id": "22157-S2E1",
+            "title": {
+              "en": "The Voice of the Cult",
+              "es": "La voz de la secta"
+            },
+            "episode": 1,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Mariona ha conseguido protagonizar una película con una promesa del cine español. Paquita, como cada año, invita a la gran vidente María Rosa a que les adivine el futuro.",
+              "es": "Mariona ha conseguido protagonizar una película con una promesa del cine español. Paquita, como cada año, invita a la gran vidente María Rosa a que les adivine el futuro."
+            }
+          },
+          {
+            "id": "22157-S2E2",
+            "title": {
+              "en": "Charitable",
+              "es": "Solidaria"
+            },
+            "episode": 2,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita necesita dinero y decide visitar a una vieja amiga muy famosa. Magüi organiza un calendario solidario. La agencia comparte su espacio con una peluquera.",
+              "es": "Paquita necesita dinero y decide visitar a una vieja amiga muy famosa. Magüi organiza un calendario solidario. La agencia comparte su espacio con una peluquera."
+            }
+          },
+          {
+            "id": "22157-S2E3",
+            "title": {
+              "en": "The Secret",
+              "es": "El secreto"
+            },
+            "episode": 3,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita le consigue un papel en una serie a Lidia San José, una de sus clientas más antiguas. Las inseguridades de la actriz amenazan con arruinar esta oportunidad.",
+              "es": "Paquita le consigue un papel en una serie a Lidia San José, una de sus clientas más antiguas. Las inseguridades de la actriz amenazan con arruinar esta oportunidad."
+            }
+          },
+          {
+            "id": "22157-S2E4",
+            "title": {
+              "en": "The Last Torrezno in Tarazona",
+              "es": "El último torrezno de Tarazona"
+            },
+            "episode": 4,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Es el Festival de Cine de Tarazona y Paquita espera impaciente noticias sobre un papel para Lidia. El fin de semana favorito de la representante no sale como esperaba.",
+              "es": "Es el Festival de Cine de Tarazona y Paquita espera impaciente noticias sobre un papel para Lidia. El fin de semana favorito de la representante no sale como esperaba."
+            }
+          },
+          {
+            "id": "22157-S2E5",
+            "title": {
+              "en": "Starting Point",
+              "es": "Punto de partida"
+            },
+            "episode": 5,
+            "season": 2,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Entre cajas y recuerdos, Paquita rememora cómo fue su primer día en la oficina allá por 1994. Magüi y Belén se enfrentan a un futuro incierto.",
+              "es": "Entre cajas y recuerdos, Paquita rememora cómo fue su primer día en la oficina allá por 1994. Magüi y Belén se enfrentan a un futuro incierto."
+            }
+          }
+        ]
+      },
+      {
+        "seasonNumber": 3,
+        "episodes": [
+          {
+            "id": "22157-S3E1",
+            "title": {
+              "en": "Cadillac Solitario",
+              "es": "Cadillac Solitario"
+            },
+            "episode": 1,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita se encuentra con Macarena García, que está en pleno bajón. Después de una noche de fiesta juntas, ven más claro su futuro.",
+              "es": "Paquita se encuentra con Macarena García, que está en pleno bajón. Después de una noche de fiesta juntas, ven más claro su futuro."
+            }
+          },
+          {
+            "id": "22157-S3E2",
+            "title": {
+              "en": "Edwin",
+              "es": "Edwin"
+            },
+            "episode": 2,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita se da cuenta del tremendo poder de las redes sociales cuando Lidia San José, su clienta, pone un tuit sobre su papel de hombre trans en un corto.",
+              "es": "Paquita se da cuenta del tremendo poder de las redes sociales cuando Lidia San José, su clienta, pone un tuit sobre su papel de hombre trans en un corto."
+            }
+          },
+          {
+            "id": "22157-S3E3",
+            "title": {
+              "en": "B-Fashion",
+              "es": "B-Fashion"
+            },
+            "episode": 3,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Magüi se equivoca con el vestido de Úrsula Corberó, pero mueve cielo y tierra para reparar su error. Belén se presenta a la prueba de acceso para Dramaturgia.",
+              "es": "Magüi se equivoca con el vestido de Úrsula Corberó, pero mueve cielo y tierra para reparar su error. Belén se presenta a la prueba de acceso para Dramaturgia."
+            }
+          },
+          {
+            "id": "22157-S3E4",
+            "title": {
+              "en": "Viral",
+              "es": "Viral"
+            },
+            "episode": 4,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Después de una clase sobre hashtags, Paquita trabaja con Magüi y B-Fashion en un vídeo para redes sociales con Belinda Washington, la influencer de Nuevo PS.",
+              "es": "Después de una clase sobre hashtags, Paquita trabaja con Magüi y B-Fashion en un vídeo para redes sociales con Belinda Washington, la influencer de Nuevo PS."
+            }
+          },
+          {
+            "id": "22157-S3E5",
+            "title": {
+              "en": "Regional Dances",
+              "es": "Bailes regionales"
+            },
+            "episode": 5,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "Paquita vuelve a su pueblo después de recibir una noticia. Belinda tiene que esconderse porque un vídeo suyo se ha hecho viral y Paquita toma una decisión radical.",
+              "es": "Paquita vuelve a su pueblo después de recibir una noticia. Belinda tiene que esconderse porque un vídeo suyo se ha hecho viral y Paquita toma una decisión radical."
+            }
+          },
+          {
+            "id": "22157-S3E6",
+            "title": {
+              "en": "Back to Navarrete II",
+              "es": "Hasta Navarrete II"
+            },
+            "episode": 6,
+            "season": 3,
+            "image": "https://static.tvmaze.com/uploads/images/original_untouched/80/202390.jpg",
+            "description": {
+              "en": "La carrera de Belinda toma un rumbo totalmente nuevo. Paquita se alegra de que Belén esté rodando una película... hasta que se entera de qué va.",
+              "es": "La carrera de Belinda toma un rumbo totalmente nuevo. Paquita se alegra de que Belén esté rodando una película... hasta que se entera de qué va."
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
