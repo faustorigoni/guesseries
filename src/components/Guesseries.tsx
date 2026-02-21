@@ -596,7 +596,7 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                   draggable={!gameFinished}
                   onDragStart={(e) => handleDragStart(e, currentEpisode)}
                   onDragEnd={(e) => handleDragEnd(e)}
-                  className={`relative w-full max-w-3xl bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-2xl cursor-grab active:cursor-grabbing transition-all ${
+                  className={`group relative w-full max-w-3xl bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-2xl cursor-grab active:cursor-grabbing transition-all ${
                     !isCurrentEpisodeInSlots ? 'opacity-70' : 'opacity-100'
                   }`}
                   style={{ aspectRatio: '16/9' }}
@@ -622,8 +622,8 @@ function Guesseries({ series, season = 1, onBackToMenu, currentLanguage, onLangu
                       </div>
                     </div>
                   )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-100 group-hover:opacity-30 transition-opacity duration-600" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 opacity-100 group-hover:opacity-30 transition-opacity duration-600">
                       <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                         {getLocalizedText(currentEpisode.title, currentLanguage)}
                       </h2>
